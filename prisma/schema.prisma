@@ -9,3 +9,38 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       String @id @default(cuid())
+  login    String @unique
+  password String
+  lists    List[]
+}
+
+enum ListPrivacy {
+  PUBLIC
+  LINK
+  PRIVATE
+}
+
+model List {
+  id      String      @id @default(cuid())
+  name    String
+  privacy ListPrivacy
+
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String
+
+  items Item[]
+  hash  String? @unique
+}
+
+model Item {
+  id       String @id @default(cuid())
+  name     String
+  category String
+  price    Float
+
+  list   List   @relation(fields: [listId], references: [id])
+  listId String
+}
