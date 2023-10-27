@@ -6,10 +6,11 @@ export const ListPrivacyGQL = g.enumType("ListPrivacy", {
   LINK: "LINK",
 });
 
-export const ListGQL = g.type("User", {
+export const ListGQL = g.type("List", {
   id: g.string(),
   name: g.string(),
   privacy: ListPrivacyGQL,
   ownerId: g.string(),
-  hash: g.string(),
+  hash: g.string().optional(),
+  // owner: g.ref("User"),
 });

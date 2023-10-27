@@ -8,7 +8,8 @@ type UserWithoutId = Omit<typeof User, "id">;
 const generateUsers = () => {
   return new Array(10).fill(null).map<UserWithoutId>(() => ({
     login: faker.internet.userName(),
-    password: faker.internet.password(),
+    // password: password1
+    password: "$2b$10$s0TNskiqVZqVp/vWsqOFgOG4r34JKi/wpxpvOLVg8.ttnv5jmcAK.",
   }));
 };
 

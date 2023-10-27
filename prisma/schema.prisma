@@ -36,10 +36,11 @@ model List {
 }
 
 model Item {
-  id       String @id @default(cuid())
-  name     String
+  id    String @id @default(cuid())
+  name  String
+  price Float
+
   category String
-  price    Float
 
   list   List   @relation(fields: [listId], references: [id])
   listId String

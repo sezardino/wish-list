@@ -19,4 +19,4 @@ class BllService {
   }
 }
 
-export const bll = new BllService(prisma);
+export const bllService = new BllService(prisma);
