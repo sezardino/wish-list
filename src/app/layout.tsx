@@ -1,5 +1,6 @@
 import { AuthProvider } from "@/context/Auth";
 import { getNextAuthSession } from "@/libs/next-auth";
+import { Theme } from "@radix-ui/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
@@ -18,7 +19,9 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider session={session}>{children}</AuthProvider>
+        <AuthProvider session={session}>
+          <Theme>{children}</Theme>
+        </AuthProvider>
       </body>
     </html>
   );
