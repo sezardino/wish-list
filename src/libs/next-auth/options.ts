@@ -1,3 +1,4 @@
+import { bllService } from "@/services/bll";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -11,7 +12,18 @@ export const nextAuthOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        return null;
+        if (!credentials || !credentials.login || !credentials.password)
+          return null;
+
+        const { login, password } = credentials;
+
+        try {
+          const user = await bllService.auth.login({ login, password });
+
+          return user;
+        } catch (error) {
+          return null;
+        }
       },
     }),
   ],

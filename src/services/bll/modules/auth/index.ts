@@ -1,9 +1,9 @@
 import { passwordService } from "@/services/password";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { AbstractBllModule } from "../../helpers";
 import { UserBllModule } from "../user";
 import { UserWithListAndWithoutPassword } from "../user/type";
-import { RegistrationDto } from "./dto";
+import { LoginDto, RegistrationDto } from "./dto";
 
 export class AuthBllModule extends AbstractBllModule {
   constructor(
@@ -29,7 +29,20 @@ export class AuthBllModule extends AbstractBllModule {
     return newUser;
   }
 
-  async login(): Promise<void> {
-    return;
+  async login(dto: LoginDto): Promise<Pick<User, "id" | "login">> {
+    const { login, password } = dto;
+
+    const user = await this.userModule.findByLogin(login);
+
+    if (!user) throw new Error("Wrong credentials");
+
+    const isPasswordValid = await passwordService.compare(
+      password,
+      user.password
+    );
+
+    if (!isPasswordValid) throw new Error("Wrong credentials");
+
+    return { id: user.id, login: user.login };
   }
 }
