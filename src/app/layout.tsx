@@ -1,6 +1,6 @@
+import { AuthProvider } from "@/context/Auth";
 import { getNextAuthSession } from "@/libs/next-auth";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import "./globals.css";
@@ -18,7 +18,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <AuthProvider session={session}>{children}</AuthProvider>
       </body>
     </html>
   );
