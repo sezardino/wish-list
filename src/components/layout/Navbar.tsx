@@ -1,0 +1,96 @@
+"use client";
+
+import { ProjectPageUrls } from "@/const/url";
+import { Button, Text } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useId, useState, type ComponentPropsWithoutRef, type FC } from "react";
+import { twMerge } from "tailwind-merge";
+import { Brand } from "../base/Brand";
+import { Icon } from "../base/Icon";
+
+export interface NavbarProps extends ComponentPropsWithoutRef<"header"> {}
+
+export const Navbar: FC<NavbarProps> = (props) => {
+  const { className, ...rest } = props;
+  const session = useSession();
+  const menuID = useId();
+  const [isMenuExpanded, setIsMenuExpanded] = useState(false);
+
+  const toggleMenu = () => setIsMenuExpanded((prev) => !prev);
+
+  const authLinks = [
+    { label: "Log in", href: ProjectPageUrls.login },
+    { label: "Get started", href: ProjectPageUrls.registration },
+  ];
+
+  const menuLinks = [
+    { label: "Home", href: ProjectPageUrls.home },
+    { label: "Log in", href: ProjectPageUrls.login },
+    { label: "Get started", href: ProjectPageUrls.registration },
+  ];
+
+  return (
+    <header
+      {...rest}
+      className={twMerge("bg-white border-gray-200 border-b", className)}
+    >
+      <nav className="px-4 lg:px-6 py-2.5">
+        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+          <Brand
+            href={session ? ProjectPageUrls.dashboard : ProjectPageUrls.home}
+          />
+
+          <div className="flex items-center lg:order-2">
+            {authLinks.map((link) => (
+              <Button
+                key={link.href}
+                asChild
+                radius="large"
+                variant="soft"
+                className="mx-1"
+              >
+                <Link href={link.href}>{link.label}</Link>
+              </Button>
+            ))}
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="2"
+              className="ml-2 lg:hidden"
+              onClick={toggleMenu}
+              data-collapse-toggle={menuID}
+              aria-controls={menuID}
+              aria-expanded={isMenuExpanded}
+              aria-label={isMenuExpanded ? "Close main menu" : "Open main menu"}
+            >
+              <Icon name={isMenuExpanded ? "HiX" : "HiMenu"} />
+            </Button>
+          </div>
+          <div
+            className={twMerge(
+              isMenuExpanded ? "flex" : "hidden",
+              "justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+            )}
+            id={menuID}
+          >
+            <ul className="flex flex-col gap-2 mt-4 lg:flex-row lg:space-x-8 lg:mt-0">
+              {menuLinks.map((link) => (
+                <li key={link.href}>
+                  <Button variant="ghost" asChild aria-current="page">
+                    <Link href={link.href}>
+                      <Text as="span" size="3" className="text-black">
+                        {link.label}
+                      </Text>
+                    </Link>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+};
