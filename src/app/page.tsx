@@ -1,14 +1,13 @@
 "use client";
 
 import { Navbar } from "@/components/layout/Navbar";
+import { HomeTemplate } from "@/components/templates/HomeTemplate";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <h1>home</h1>
-      </main>
+      <HomeTemplate />
     </>
   );
 }

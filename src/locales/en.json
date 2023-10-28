@@ -34,6 +34,14 @@
       "not-match": "Passwords do not match"
     }
   },
+  "home": {
+    "hero": {
+      "title": "Welcome to the home page",
+      "description": "This is the home page of the application",
+      "illustration": "Home page illustration",
+      "login": "Get started"
+    }
+  },
   "toasts": {
     "login": {
       "success": "You have successfully logged in",
