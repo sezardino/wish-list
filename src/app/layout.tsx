@@ -40,7 +40,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
             locale={i18nDefaultLanguage}
             messages={messages}
           >
-            <Theme>{children}</Theme>
+            <Theme className="min-h-screen">{children}</Theme>
           </NextIntlClientProvider>
         </AuthProvider>
       </body>

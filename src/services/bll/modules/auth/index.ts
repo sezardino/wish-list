@@ -2,7 +2,6 @@ import { passwordService } from "@/services/password";
 import { PrismaClient, User } from "@prisma/client";
 import { AbstractBllModule } from "../../helpers";
 import { UserBllModule } from "../user";
-import { UserWithListAndWithoutPassword } from "../user/type";
 import { LoginDto, RegistrationDto } from "./dto";
 
 export class AuthBllModule extends AbstractBllModule {
@@ -13,11 +12,9 @@ export class AuthBllModule extends AbstractBllModule {
     super(prisma);
   }
 
-  async registration(
-    dto: RegistrationDto
-  ): Promise<UserWithListAndWithoutPassword> {
+  async registration(dto: RegistrationDto): Promise<boolean> {
     const { login, password } = dto;
-    console.log(dto);
+
     const isLoginAvailable = await this.userModule.isLoginAvailable(login);
 
     if (!isLoginAvailable) throw new Error("Login is already taken");
@@ -26,7 +23,7 @@ export class AuthBllModule extends AbstractBllModule {
 
     const newUser = await this.userModule.createUser(login, hashedPassword);
 
-    return newUser;
+    return !!newUser;
   }
 
   async login(dto: LoginDto): Promise<Pick<User, "id" | "login">> {

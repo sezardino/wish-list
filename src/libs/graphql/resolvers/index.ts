@@ -9,6 +9,9 @@ export type GraphqlResolvers = InferResolvers<
   { context: GraphqlContext }
 >;
 
+export type GraphqlQueries = GraphqlResolvers["Query"];
+export type GraphqlMutations = GraphqlResolvers["Mutation"];
+
 export const graphqlResolvers: GraphqlResolvers = {
   Query: queryResolvers,
   Mutation: mutationResolvers,

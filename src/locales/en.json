@@ -1,1 +1,37 @@
-{ "common": { "common": "Common 1" } }
+{
+  "auth-template": {
+    "login": {
+      "title": "Login",
+      "description": "Login to your account",
+      "trigger": "Login",
+      "link": "Don't have an account? Register here."
+    },
+    "registration": {
+      "title": "Registration",
+      "description": "Create new account",
+      "trigger": "Registration",
+      "link": "Already have an account? Login here."
+    }
+  },
+  "auth-form": {
+    "login": {
+      "label": "Login",
+      "placeholder": "Enter your login",
+      "required": "Login is required",
+      "invalid": "Login is invalid",
+      "used": "Login is already used"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password",
+      "required": "Password is required",
+      "min-length": "Min length is {value} symbols"
+    },
+    "repeat-password": {
+      "label": "Repeat Password",
+      "placeholder": "Repeat your password",
+      "required": "You should repeat your password",
+      "not-match": "Passwords do not match"
+    }
+  }
+}

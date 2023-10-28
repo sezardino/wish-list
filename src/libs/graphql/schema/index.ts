@@ -1,8 +1,11 @@
-import { buildSchema, g } from "garph";
-import { ItemGQL, ListGQL, UserGQL } from "./entity";
-import { graphqlResolvers } from "./resolvers";
+import { Infer, InferArgs, buildSchema, g } from "garph";
+import { ItemGQL, ListGQL, UserGQL } from "../entity";
+import { graphqlResolvers } from "../resolvers";
+import { isLoginAvailableQueryType } from "./query/is-login-available";
 
 export const queryType = g.type("Query", {
+  isLoginAvailable: isLoginAvailableQueryType,
+  // not ready
   lists: g.ref(ListGQL).list().description("Get all lists"),
   list: g
     .ref(ListGQL)
@@ -22,7 +25,7 @@ export const queryType = g.type("Query", {
 
 export const mutationType = g.type("Mutation", {
   registration: g
-    .ref(UserGQL)
+    .boolean()
     .args({ login: g.string(), password: g.string() })
     .description("Registration"),
   deleteAccount: g.ref(UserGQL).description("Delete account"),
@@ -51,6 +54,11 @@ export const mutationType = g.type("Mutation", {
     .args({ id: g.string() })
     .description("Update item"),
 });
+
+export type QueryArguments = InferArgs<typeof queryType>;
+export type QueryReturn = Infer<typeof queryType>;
+export type MutationArguments = InferArgs<typeof mutationType>;
+export type MutationReturn = Infer<typeof mutationType>;
 
 export const graphqlSchema = buildSchema({
   g,
