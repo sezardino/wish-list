@@ -33,5 +33,15 @@
       "required": "You should repeat your password",
       "not-match": "Passwords do not match"
     }
+  },
+  "toasts": {
+    "login": {
+      "success": "You have successfully logged in",
+      "error": "Login failed"
+    },
+    "registration": {
+      "success": "You have successfully registered",
+      "error": "Registration failed"
+    }
   }
 }

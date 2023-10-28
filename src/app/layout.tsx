@@ -12,6 +12,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { PropsWithChildren } from "react";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,7 +41,10 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
             locale={i18nDefaultLanguage}
             messages={messages}
           >
-            <Theme className="min-h-screen">{children}</Theme>
+            <Theme className="min-h-screen">
+              {children}
+              <ToastContainer />
+            </Theme>
           </NextIntlClientProvider>
         </AuthProvider>
       </body>

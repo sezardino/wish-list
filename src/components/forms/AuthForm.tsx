@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Grid } from "@radix-ui/themes";
 import { useTranslations } from "next-intl";
-import { FocusEvent, type ComponentPropsWithoutRef, type FC } from "react";
+import { type ComponentPropsWithoutRef, type FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
@@ -35,53 +35,56 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
   } = props;
   const t = useTranslations("auth-form");
 
-  const { handleSubmit, control, setError } = useForm<AuthFormValues>({
-    mode: "onTouched",
-    resolver: zodResolver(
-      z
-        .object({
-          login: z
-            .string({ required_error: t("login.required") })
-            .min(1, { message: t("login.required") }),
-          password: z
-            .string({ required_error: t("password.required") })
-            .min(6, { message: t("password.min-length", { value: 6 }) }),
-          repeatPassword:
-            type === "registration"
-              ? z
-                  .string({ required_error: t("repeat-password.required") })
-                  .min(1, { message: t("repeat-password.required") })
-              : z.optional(z.string()),
-        })
-        .refine(
-          (data) =>
-            type === "registration"
-              ? data.password === data.repeatPassword
-              : true,
-          {
-            path: ["repeatPassword"],
-            message: t("repeat-password.not-match"),
-          }
-        )
-    ),
-  });
+  const { handleSubmit, control, setError, formState } =
+    useForm<AuthFormValues>({
+      mode: "onTouched",
+      resolver: zodResolver(
+        z
+          .object({
+            login: z
+              .string({ required_error: t("login.required") })
+              .min(1, { message: t("login.required") }),
+            password: z
+              .string({ required_error: t("password.required") })
+              .min(6, { message: t("password.min-length", { value: 6 }) }),
+            repeatPassword:
+              type === "registration"
+                ? z
+                    .string({ required_error: t("repeat-password.required") })
+                    .min(1, { message: t("repeat-password.required") })
+                : z.optional(z.string()),
+          })
+          .refine(
+            (data) =>
+              type === "registration"
+                ? data.password === data.repeatPassword
+                : true,
+            {
+              path: ["repeatPassword"],
+              message: t("repeat-password.not-match"),
+            }
+          )
+      ),
+    });
 
-  const onSubmit: SubmitHandler<AuthFormValues> = (data) => onFormSubmit(data);
-
-  const validateLoginHandler = async (
-    evt: FocusEvent<HTMLInputElement, Element>
-  ) => {
+  const validateLoginHandler = async (login: string) => {
     if (!onLoginAvailableRequest) return;
 
-    const { value } = evt.currentTarget;
-
-    const response = await onLoginAvailableRequest(value);
+    const response = await onLoginAvailableRequest(login);
 
     if (response) return;
 
     setError("login", {
       message: t("login.used"),
     });
+  };
+
+  const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
+    // await validateLoginHandler(data.login);
+
+    // if (formState.errors) return;
+
+    onFormSubmit(data);
   };
 
   return (
@@ -97,7 +100,7 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
           control={control}
           label={t("login.label")}
           placeholder={t("login.placeholder")}
-          onBlur={validateLoginHandler}
+          onBlur={(evt) => validateLoginHandler(evt.currentTarget.value)}
         />
 
         <ControlledInputField

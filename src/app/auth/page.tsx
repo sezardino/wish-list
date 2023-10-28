@@ -3,22 +3,29 @@
 import { AuthFormValues } from "@/components/forms/AuthForm";
 import { AuthTemplate } from "@/components/templates/AuthTemplate";
 import { ProjectPageUrls } from "@/const/url";
+import { reactToastify } from "@/libs/react-toastify";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
+  const t = useTranslations("toasts");
+
   const loginHandler = async (values: AuthFormValues) => {
     let res = await signIn("credentials", {
       ...values,
-      redirect: true,
-      callbackUrl: ProjectPageUrls.dashboard,
+      redirect: false,
     });
 
     if (res?.ok) {
-      console.log("success");
+      reactToastify({ type: "success", message: t("login.success") });
+      router.replace(ProjectPageUrls.dashboard);
       return;
     } else {
-      console.log("Failed", res);
+      reactToastify({ type: "error", message: t("login.error") });
     }
+
     return res;
   };
 
