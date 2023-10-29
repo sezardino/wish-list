@@ -1,9 +1,9 @@
 export const ProjectPageUrls = {
   login: "/auth",
   registration: "/auth/registration",
-  logout: "/auth/logout",
-  dashboard: "/dashboard",
+  myLists: "/my-lists",
   home: "/",
+  about: "/about",
 } as const;
 
 export type ProjectPageUrls =

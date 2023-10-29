@@ -39,7 +39,6 @@ export const nextAuthOptions: AuthOptions = {
 
   pages: {
     signIn: ProjectPageUrls.login,
-    signOut: ProjectPageUrls.logout,
     error: ProjectPageUrls.login,
   },
 

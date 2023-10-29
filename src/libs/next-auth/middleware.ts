@@ -1,10 +1,29 @@
-import { withAuth } from "next-auth/middleware";
+import { ProjectPageUrls } from "@/const/url";
+import { NextAuthMiddlewareOptions } from "next-auth/middleware";
 
-export const nextAuthMiddleware = withAuth(function middleware(req) {}, {
+const publicRoutes = [
+  ProjectPageUrls.home,
+  ProjectPageUrls.about,
+  ProjectPageUrls.login,
+  ProjectPageUrls.registration,
+];
+
+export const nextAuthMiddleware: NextAuthMiddlewareOptions = {
   callbacks: {
     authorized: ({ req, token }) => {
-      // TODO: add logic here
+      const currentPathName = req.nextUrl.pathname;
+
+      const isPublicRoute = publicRoutes.some((route) =>
+        currentPathName.startsWith(route)
+      );
+
+      if (!isPublicRoute && token === null) {
+        return false;
+      }
+
       return true;
     },
   },
-});
+};
+
+export default nextAuthMiddleware;

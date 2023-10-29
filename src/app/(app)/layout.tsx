@@ -10,16 +10,6 @@ import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 import styles from "./layout.module.css";
 
-const lists: AppSidebarItem[][] = [
-  [
-    {
-      label: "Dashboard",
-      icon: "HiOutlineHome",
-      to: ProjectPageUrls.dashboard,
-    },
-  ],
-];
-
 const DashboardLayout = (props: PropsWithChildren) => {
   const { children } = props;
   const session = useSession();
@@ -31,7 +21,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
         {
           label: t("dashboard"),
           icon: "HiOutlineHome",
-          to: ProjectPageUrls.dashboard,
+          to: ProjectPageUrls.home,
         },
       ],
     ],
@@ -57,7 +47,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
           styles.sidebar,
           "max-md:fixed max-md:top-0 max-md:left-0"
         )}
-        brandHref={ProjectPageUrls.dashboard}
+        brandHref={ProjectPageUrls.home}
       />
       <main className={twMerge(styles.content, "p-4 h-auto")}>{children}</main>
     </div>

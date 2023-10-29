@@ -1,13 +1,13 @@
-"use client";
-
 import { LandingNavbar } from "@/components/layout/LandingNavbar";
 import { HomeTemplate } from "@/components/templates/HomeTemplate";
 
-export default function Home() {
+const AboutPage = () => {
   return (
     <>
       <LandingNavbar />
       <HomeTemplate />
     </>
   );
-}
+};
+
+export default AboutPage;

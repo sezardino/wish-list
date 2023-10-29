@@ -19,7 +19,7 @@ import { Icon } from "../base/Icon";
 
 type NavbarLink = {
   label: string;
-  href: string;
+  href?: string;
   onClick?: () => void;
 };
 
@@ -44,7 +44,6 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
     const loggedLinks = [
       {
         label: t("logout"),
-        href: ProjectPageUrls.logout,
         onClick: () =>
           signOut({ callbackUrl: ProjectPageUrls.home, redirect: true }),
       },
@@ -56,7 +55,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const menuLinks = useMemo<NavbarLink[]>(
     () =>
       session.data
-        ? [{ label: t("dashboard"), href: ProjectPageUrls.dashboard }]
+        ? [{ label: t("dashboard"), href: ProjectPageUrls.home }]
         : [],
     [session.data, t]
   );
@@ -69,9 +68,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
       <nav className="px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Brand
-            href={
-              session.data ? ProjectPageUrls.dashboard : ProjectPageUrls.home
-            }
+            href={session.data ? ProjectPageUrls.home : ProjectPageUrls.home}
           />
 
           <div className="flex items-center lg:order-2">
@@ -85,7 +82,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
                   className="mx-1"
                   onClick={link.onClick}
                 >
-                  {!link.onClick ? (
+                  {link.href ? (
                     <Link href={link.href}>{link.label}</Link>
                   ) : (
                     link.label
@@ -122,7 +119,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
                 {menuLinks.map((link) => (
                   <li key={link.href}>
                     <Button variant="ghost" asChild aria-current="page">
-                      <Link href={link.href}>
+                      <Link href={link.href || "#"}>
                         <Text as="span" size="3" className="text-black">
                           {link.label}
                         </Text>

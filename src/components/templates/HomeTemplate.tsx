@@ -1,3 +1,5 @@
+"use client";
+
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { HomeFeature, HomeFeatures } from "../modules/home/HomeFeatures";

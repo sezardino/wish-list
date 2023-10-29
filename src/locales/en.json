@@ -66,7 +66,8 @@
 
     "application": {
       "links": {
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "my-lists": "My Lists"
       },
       "navbar": {
         "profile": "Profile",

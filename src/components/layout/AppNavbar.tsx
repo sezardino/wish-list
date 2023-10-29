@@ -27,7 +27,7 @@ export const AppNavbar: FC<AppNavbarProps> = (props) => {
     ({ label: string; to?: ProjectPageUrls; onClick?: () => void } | null)[]
   >(
     () => [
-      { label: t("profile"), to: ProjectPageUrls.dashboard },
+      { label: t("profile"), to: ProjectPageUrls.home },
       null,
       { label: t("logout"), onClick: signOut },
     ],
