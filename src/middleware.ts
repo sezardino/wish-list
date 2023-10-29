@@ -1,5 +1,4 @@
 import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
 import { ProjectPageUrls } from "./const/url";
 
 const protectedRoutes = [ProjectPageUrls.dashboard, ProjectPageUrls.logout];
@@ -14,7 +13,6 @@ export default withAuth((req) => {}, {
       );
 
       if (isProtectedRoute && token === null) {
-        NextResponse.redirect(ProjectPageUrls.dashboard);
         return false;
       }
 

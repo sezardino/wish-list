@@ -4,4 +4,7 @@ export const ProjectPageUrls = {
   logout: "/auth/logout",
   dashboard: "/dashboard",
   home: "/",
-};
+} as const;
+
+export type ProjectPageUrls =
+  (typeof ProjectPageUrls)[keyof typeof ProjectPageUrls];
