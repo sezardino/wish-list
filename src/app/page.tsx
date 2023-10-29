@@ -1,12 +1,12 @@
 "use client";
 
-import { Navbar } from "@/components/layout/Navbar";
+import { LandingNavbar } from "@/components/layout/LandingNavbar";
 import { HomeTemplate } from "@/components/templates/HomeTemplate";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <LandingNavbar />
       <HomeTemplate />
     </>
   );
