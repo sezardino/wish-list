@@ -83,5 +83,48 @@
         "close-sidebar": "Close sidebar"
       }
     }
+  },
+  "modals": {
+    "list-create": {
+      "title": "Create Wish List",
+      "description": "Create new wish list"
+    }
+  },
+  "forms": {
+    "list-create": {
+      "cancel": "Cancel",
+      "submit": "Create",
+      "name": {
+        "label": "List name",
+        "placeholder": "Enter list name",
+        "required": "List name is required",
+        "min-length": "Min length is {value} symbols",
+        "max-length": "Max length is {value} symbols"
+      },
+      "category": {
+        "label": "List category",
+        "placeholder": "Select list category",
+        "required": "List category is required"
+      },
+      "description": {
+        "label": "List description",
+        "placeholder": "Enter list description",
+        "required": "List description is required",
+        "min-length": "Min length is {value} symbols",
+        "max-length": "Max length is {value} symbols"
+      },
+      "icon": {
+        "label": "List icon",
+        "placeholder": "Select list icon",
+        "required": "List icon is required"
+      },
+      "tags": {
+        "label": "List tags",
+        "placeholder": "Enter list tags",
+        "required": "List tags are required",
+        "min-length": "Min length is {value} symbols",
+        "max-length": "Max length is {value} symbols"
+      }
+    }
   }
 }

@@ -27,6 +27,7 @@ export const BaseInput: FC<BaseInputProps> = (props) => {
       type={currentType}
       variant="bordered"
       labelPlacement="outside"
+      placeholder={rest.placeholder || ""}
       radius="sm"
       endContent={
         type === "password" && (
