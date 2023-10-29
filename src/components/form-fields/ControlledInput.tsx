@@ -1,15 +1,14 @@
 import { FocusEvent } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { InputField, InputFieldProps } from "./InputField";
+import { BaseInput, BaseInputProps } from "../base/BaseInput";
 
-export type ControlledInputFieldProps<T extends FieldValues> =
-  InputFieldProps & {
-    control: Control<T, any>;
-    name: Path<T>;
-  };
+export type ControlledInputProps<T extends FieldValues> = BaseInputProps & {
+  control: Control<T, any>;
+  name: Path<T>;
+};
 
-export const ControlledInputField = <T extends FieldValues>(
-  props: ControlledInputFieldProps<T>
+export const ControlledInput = <T extends FieldValues>(
+  props: ControlledInputProps<T>
 ) => {
   const { name, control, className, onBlur, ...rest } = props;
 
@@ -27,11 +26,13 @@ export const ControlledInputField = <T extends FieldValues>(
   };
 
   return (
-    <InputField
+    <BaseInput
       {...rest}
       {...field}
-      error={error?.message}
+      // @ts-ignore
       onBlur={blurHandler}
+      isInvalid={!!error}
+      errorMessage={error?.message}
     />
   );
 };

@@ -1,9 +1,9 @@
 import BrandLogo from "@/assets/brand/logo-big.png";
-import { Text } from "@radix-ui/themes";
 import Image from "next/image";
 import Link, { LinkProps } from "next/link";
 import { ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
+import { Typography } from "./Typography";
 
 export type BrandProps = LinkProps &
   ComponentPropsWithoutRef<"a"> & {
@@ -25,14 +25,14 @@ export const Brand: FC<BrandProps> = (props) => {
         alt="Wish list logo"
       />
       {!isTextHidden && (
-        <Text
-          as="span"
-          size={"4"}
-          weight={"bold"}
+        <Typography
+          tag="span"
+          size="lg"
+          weight="bold"
           className="self-center whitespace-nowrap"
         >
           Wish List
-        </Text>
+        </Typography>
       )}
     </Link>
   );

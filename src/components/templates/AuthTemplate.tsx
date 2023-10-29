@@ -1,9 +1,10 @@
 "use client";
 
 import { ProjectPageUrls } from "@/const/url";
-import { Heading, Link, Text } from "@radix-ui/themes";
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
+import { BaseLink } from "../base/BaseLink";
+import { Typography } from "../base/Typography";
 import { AuthForm, AuthFormProps } from "../forms/AuthForm";
 
 export type AuthTemplateType = "login" | "registration";
@@ -21,10 +22,8 @@ export const AuthTemplate: FC<AuthTemplateProps> = (props) => {
   return (
     <section {...rest} className="border-2 rounded-md p-4">
       <div className="text-center">
-        <Heading as="h1">{t(`${type}.title`)}</Heading>
-        <Text as="p" size="2">
-          {t(`${type}.description`)}
-        </Text>
+        <Typography tag="h1">{t(`${type}.title`)}</Typography>
+        <Typography tag="p">{t(`${type}.description`)}</Typography>
       </div>
       <AuthForm
         label={t(`${type}.title`)}
@@ -34,9 +33,9 @@ export const AuthTemplate: FC<AuthTemplateProps> = (props) => {
         onFormSubmit={onFormSubmit}
         onLoginAvailableRequest={onLoginAvailableRequest}
       />
-      <Link
-        size={"2"}
-        href={
+      <BaseLink
+        size="sm"
+        to={
           type === "login"
             ? ProjectPageUrls.registration
             : ProjectPageUrls.login
@@ -44,7 +43,7 @@ export const AuthTemplate: FC<AuthTemplateProps> = (props) => {
         className="mt-5 inline-block"
       >
         {t(`${type}.link`)}
-      </Link>
+      </BaseLink>
     </section>
   );
 };

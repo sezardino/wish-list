@@ -1,5 +1,5 @@
 import { Icon, IconNames } from "@/components/base/Icon";
-import { Text } from "@radix-ui/themes";
+import { Typography } from "@/components/base/Typography";
 import { ToastOptions, toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 
@@ -43,9 +43,9 @@ export const reactToastify = (args: ToastArgs) => {
     () => (
       <div className="flex items-center gap-4">
         <Icon name={icon[type]} size={16} className={`${color[type]}`} />
-        <Text as="span" className={color[type]}>
+        <Typography tag="span" className={color[type]}>
           {message}
-        </Text>
+        </Typography>
       </div>
     ),
     {

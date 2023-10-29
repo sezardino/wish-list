@@ -1,10 +1,8 @@
 "use client";
 
 import { ProjectPageUrls } from "@/const/url";
-import { Button, Text } from "@radix-ui/themes";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import {
   Fragment,
   useId,
@@ -14,12 +12,14 @@ import {
   type FC,
 } from "react";
 import { twMerge } from "tailwind-merge";
+import { BaseButton } from "../base/BaseButton";
 import { Brand } from "../base/Brand";
 import { Icon } from "../base/Icon";
+import { Typography } from "../base/Typography";
 
 type NavbarLink = {
   label: string;
-  href?: string;
+  href?: ProjectPageUrls;
   onClick?: () => void;
 };
 
@@ -74,28 +74,21 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
           <div className="flex items-center lg:order-2">
             {authLinks.map((link) => (
               <Fragment key={link.href}>
-                <Button
+                <BaseButton
                   key={link.href}
-                  asChild={!link.onClick}
-                  radius="large"
-                  variant="soft"
+                  to={link.href ? link.href : undefined}
+                  variant="flat"
                   className="mx-1"
                   onClick={link.onClick}
                 >
-                  {link.href ? (
-                    <Link href={link.href}>{link.label}</Link>
-                  ) : (
-                    link.label
-                  )}
-                </Button>
+                  {link.label}
+                </BaseButton>
               </Fragment>
             ))}
 
             {!!menuLinks.length && (
-              <Button
-                type="button"
+              <BaseButton
                 variant="ghost"
-                size="2"
                 className="ml-2 lg:hidden"
                 onClick={toggleMenu}
                 data-collapse-toggle={menuID}
@@ -104,7 +97,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
                 aria-label={isMenuExpanded ? t("close-menu") : t("open-menu")}
               >
                 <Icon name={isMenuExpanded ? "HiX" : "HiMenu"} />
-              </Button>
+              </BaseButton>
             )}
           </div>
           {!!menuLinks.length && (
@@ -118,13 +111,15 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
               <ul className="flex flex-col gap-2 mt-4 lg:flex-row lg:space-x-8 lg:mt-0">
                 {menuLinks.map((link) => (
                   <li key={link.href}>
-                    <Button variant="ghost" asChild aria-current="page">
-                      <Link href={link.href || "#"}>
-                        <Text as="span" size="3" className="text-black">
-                          {link.label}
-                        </Text>
-                      </Link>
-                    </Button>
+                    <BaseButton
+                      variant="ghost"
+                      to={link.href}
+                      aria-current="page"
+                    >
+                      <Typography tag="span" className="text-black">
+                        {link.label}
+                      </Typography>
+                    </BaseButton>
                   </li>
                 ))}
               </ul>

@@ -1,13 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Grid } from "@radix-ui/themes";
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
-import { ControlledInputField } from "../form-fields/ControlledInputField";
+import { BaseButton } from "../base/BaseButton";
+import { ControlledInput } from "../form-fields/ControlledInput";
 
 export type AuthFormValues = {
   login: string;
@@ -80,9 +80,11 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
   };
 
   const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
-    await validateLoginHandler(data.login);
+    if (type === "registration") {
+      await validateLoginHandler(data.login);
 
-    if (formState.errors) return;
+      if (formState.errors) return;
+    }
 
     onFormSubmit(data);
   };
@@ -94,8 +96,8 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
       onSubmit={handleSubmit(onSubmit)}
       aria-label={label}
     >
-      <Grid gap="2">
-        <ControlledInputField
+      <div className="grid grid-cols-1 gap-2">
+        <ControlledInput
           name="login"
           control={control}
           label={t("login.label")}
@@ -103,25 +105,27 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
           onBlur={(evt) => validateLoginHandler(evt.currentTarget.value)}
         />
 
-        <ControlledInputField
+        <ControlledInput
           name="password"
+          type="password"
           control={control}
           label={t("password.label")}
           placeholder={t("password.placeholder")}
         />
         {type === "registration" && (
-          <ControlledInputField
+          <ControlledInput
+            type="password"
             name="repeatPassword"
             control={control}
             label={t("repeat-password.label")}
             placeholder={t("repeat-password.placeholder")}
           />
         )}
-      </Grid>
+      </div>
 
-      <Button type="submit" color="blue" variant="outline">
+      <BaseButton type="submit" variant="bordered">
         {triggerCopy}
-      </Button>
+      </BaseButton>
     </form>
   );
 };

@@ -1,10 +1,9 @@
 import HeroIllustration from "@/assets/illustrations/hero.png";
-import { Icon } from "@/components/base/Icon";
+import { BaseButton } from "@/components/base/BaseButton";
+import { Typography } from "@/components/base/Typography";
 import { ProjectPageUrls } from "@/const/url";
-import { Button, Heading, Text } from "@radix-ui/themes";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -23,28 +22,25 @@ export const HomeHero: FC<HomeHeroProps> = (props) => {
       )}
     >
       <div className="mr-auto place-self-center lg:col-span-7">
-        <Heading
-          as="h1"
-          size={{ initial: "8", sm: "9" }}
+        <Typography
+          tag="h1"
+          size="6xl"
           weight={"bold"}
           className="max-w-2xl mb-4tracking-tight"
         >
           {t("title")}
-        </Heading>
+        </Typography>
 
-        <Text
-          as="p"
-          size={{ md: "3", lg: "4" }}
+        <Typography
+          tag="p"
+          size="lg"
           className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8"
         >
           {t("description")}
-        </Text>
-        <Button size={"3"} asChild>
-          <Link href={ProjectPageUrls.login}>
-            <Text as="span">{t("login")}</Text>
-            <Icon name="HiArrowRight" size={20} />
-          </Link>
-        </Button>
+        </Typography>
+        <BaseButton to={ProjectPageUrls.login} rightIcon="HiArrowRight">
+          <Typography tag="span">{t("login")}</Typography>
+        </BaseButton>
       </div>
       <Image
         src={HeroIllustration}
