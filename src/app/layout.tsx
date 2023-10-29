@@ -1,4 +1,3 @@
-import { AuthProvider } from "@/context/Auth";
 import { getNextAuthSession } from "@/libs/next-auth";
 import {
   SupportedLanguages,
@@ -6,13 +5,11 @@ import {
   i18nDefaultLanguage,
 } from "@/libs/next-intl";
 import "@/styles/main.css";
-import { Theme } from "@radix-ui/themes";
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { PropsWithChildren } from "react";
-import { ToastContainer } from "react-toastify";
+import { RootLayoutProviders } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,17 +33,13 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
   return (
     <html lang={i18nDefaultLanguage}>
       <body className={inter.className}>
-        <AuthProvider session={session}>
-          <NextIntlClientProvider
-            locale={i18nDefaultLanguage}
-            messages={messages}
-          >
-            <Theme className="min-h-screen">
-              {children}
-              <ToastContainer />
-            </Theme>
-          </NextIntlClientProvider>
-        </AuthProvider>
+        <RootLayoutProviders
+          session={session}
+          locale={i18nDefaultLanguage}
+          messages={messages}
+        >
+          {children}
+        </RootLayoutProviders>
       </body>
     </html>
   );

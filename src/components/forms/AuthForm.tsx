@@ -80,9 +80,9 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
   };
 
   const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
-    // await validateLoginHandler(data.login);
+    await validateLoginHandler(data.login);
 
-    // if (formState.errors) return;
+    if (formState.errors) return;
 
     onFormSubmit(data);
   };

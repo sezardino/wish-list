@@ -14,6 +14,7 @@ model User {
   id       String @id @default(cuid())
   login    String @unique
   password String
+  // todo add image
   lists    List[]
 }
 
@@ -24,24 +25,71 @@ enum ListPrivacy {
 }
 
 model List {
-  id      String      @id @default(cuid())
-  name    String
-  privacy ListPrivacy
+  id String @id @default(cuid())
+
+  name        String
+  category    String?
+  tags        String[] @default([])
+  description String?
+  icon        String?
+
+  privacy      ListPrivacy @default(PRIVATE)
+  avaragePrice Float?      @map("avarage_price")
 
   owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String
+  ownerId String @map("owner_id")
 
   items Item[]
   hash  String? @unique
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+enum ItemStatus {
+  RECEIVE
+  RECEIVED
+  ALREADY_HAVE
+}
+
+enum ItemPriority {
+  LOW
+  MEDIUM
+  HIGH
+  UNDEFINED
+  URGENT
 }
 
 model Item {
-  id    String @id @default(cuid())
-  name  String
-  price Float
+  id           String  @id @default(cuid())
+  name         String
+  avaragePrice Float   @map("avarage_price")
+  description  String?
+  // TODO: add image
 
-  category String
+  category String?
+  tags     String[] @default([])
 
   list   List   @relation(fields: [listId], references: [id])
-  listId String
+  listId String @map("list_id")
+
+  links ItemLink[]
+
+  status   ItemStatus   @default(RECEIVE)
+  priority ItemPriority @default(UNDEFINED)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model ItemLink {
+  id    String @id @default(cuid())
+  label String
+  href  String
+
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId String @map("item_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }

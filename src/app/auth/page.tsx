@@ -20,7 +20,7 @@ const LoginPage = () => {
 
     if (res?.ok) {
       reactToastify({ type: "success", message: t("login.success") });
-      router.replace(ProjectPageUrls.dashboard);
+      router.replace(ProjectPageUrls.home);
       return;
     } else {
       reactToastify({ type: "error", message: t("login.error") });

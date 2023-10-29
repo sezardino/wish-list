@@ -1,3 +1,4 @@
+import { DashboardTemplate } from "@/components/templates/DashboardTemplate";
 import { ProjectPageUrls } from "@/const/url";
 import { getNextAuthSession } from "@/libs/next-auth";
 import { redirect } from "next/navigation";
@@ -7,7 +8,7 @@ const HomePage = async () => {
 
   if (!session) redirect(ProjectPageUrls.about);
 
-  return <h1>Dashboard</h1>;
+  return <DashboardTemplate />;
 };
 
 export default HomePage;
