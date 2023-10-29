@@ -3,6 +3,7 @@
 import { ProjectPageUrls } from "@/const/url";
 import { Button, Text } from "@radix-ui/themes";
 import { signOut, useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import {
   Fragment,
@@ -27,6 +28,7 @@ export interface LandingNavbarProps
 
 export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const { className, ...rest } = props;
+  const t = useTranslations("layout.landing.navbar");
   const session = useSession();
   const menuID = useId();
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
@@ -35,13 +37,13 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
 
   const authLinks = useMemo<NavbarLink[]>(() => {
     const notLoggedLinks = [
-      { label: "Log in", href: ProjectPageUrls.login },
-      { label: "Get started", href: ProjectPageUrls.registration },
+      { label: t("login"), href: ProjectPageUrls.login },
+      { label: t("registration"), href: ProjectPageUrls.registration },
     ];
 
     const loggedLinks = [
       {
-        label: "Logout",
+        label: t("logout"),
         href: ProjectPageUrls.logout,
         onClick: () =>
           signOut({ callbackUrl: ProjectPageUrls.home, redirect: true }),
@@ -49,14 +51,14 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
     ];
 
     return session.data ? loggedLinks : notLoggedLinks;
-  }, [session.data]);
+  }, [session.data, t]);
 
   const menuLinks = useMemo<NavbarLink[]>(
     () =>
       session.data
-        ? [{ label: "Dashboard", href: ProjectPageUrls.dashboard }]
+        ? [{ label: t("dashboard"), href: ProjectPageUrls.dashboard }]
         : [],
-    [session.data]
+    [session.data, t]
   );
 
   return (
@@ -102,9 +104,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
                 data-collapse-toggle={menuID}
                 aria-controls={menuID}
                 aria-expanded={isMenuExpanded}
-                aria-label={
-                  isMenuExpanded ? "Close main menu" : "Open main menu"
-                }
+                aria-label={isMenuExpanded ? t("close-menu") : t("open-menu")}
               >
                 <Icon name={isMenuExpanded ? "HiX" : "HiMenu"} />
               </Button>

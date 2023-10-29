@@ -51,5 +51,36 @@
       "success": "You have successfully registered",
       "error": "Registration failed"
     }
+  },
+  "layout": {
+    "landing": {
+      "navbar": {
+        "login": "Login",
+        "registration": "Ger started",
+        "logout": "Logout",
+        "dashboard": "Dashboard",
+        "close-menu": "Close main menu",
+        "open-menu": "Open main menu"
+      }
+    },
+
+    "application": {
+      "links": {
+        "dashboard": "Dashboard"
+      },
+      "navbar": {
+        "profile": "Profile",
+        "logout": "Logout",
+        "user-menu": "Toggle User menu"
+      },
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "title": "Sidebar navigation",
+        "expand-sidebar": "Expand sidebar",
+        "collapse-sidebar": "Collapse sidebar",
+        "open-sidebar": "Open sidebar",
+        "close-sidebar": "Close sidebar"
+      }
+    }
   }
 }

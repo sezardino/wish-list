@@ -1,18 +1,16 @@
 "use client";
 
 import { ProjectPageUrls } from "@/const/url";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useMemo } from "react";
 
-import { DashboardNavbar } from "@/components/layout/DashboardNavbar";
-import {
-  DashboardSidebar,
-  DashboardSidebarItem,
-} from "@/components/layout/DashboardSidebar";
+import { AppNavbar } from "@/components/layout/AppNavbar";
+import { AppSidebar, AppSidebarItem } from "@/components/layout/AppSidebar";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 import styles from "./layout.module.css";
 
-const lists: DashboardSidebarItem[][] = [
+const lists: AppSidebarItem[][] = [
   [
     {
       label: "Dashboard",
@@ -25,6 +23,20 @@ const lists: DashboardSidebarItem[][] = [
 const DashboardLayout = (props: PropsWithChildren) => {
   const { children } = props;
   const session = useSession();
+  const t = useTranslations("layout.application.links");
+
+  const lists = useMemo<AppSidebarItem[][]>(
+    () => [
+      [
+        {
+          label: t("dashboard"),
+          icon: "HiOutlineHome",
+          to: ProjectPageUrls.dashboard,
+        },
+      ],
+    ],
+    [t]
+  );
 
   if (!session.data) return null;
 
@@ -32,14 +44,14 @@ const DashboardLayout = (props: PropsWithChildren) => {
     <div
       className={twMerge(styles.element, "min-h-screen antialiased bg-gray-50")}
     >
-      <DashboardNavbar
+      <AppNavbar
         // TODO: add image to profile
         avatarSrc={undefined}
         login={session.data.user.login}
         className={styles.navbar}
       />
 
-      <DashboardSidebar
+      <AppSidebar
         lists={lists}
         className={twMerge(
           styles.sidebar,

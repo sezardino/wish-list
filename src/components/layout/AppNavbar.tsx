@@ -10,26 +10,28 @@ import {
 import { ProjectPageUrls } from "@/const/url";
 import { Avatar, DropdownMenu } from "@radix-ui/themes";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
-export type DashboardNavbar = ComponentPropsWithoutRef<"nav"> & {
+export type AppNavbarProps = ComponentPropsWithoutRef<"nav"> & {
   avatarSrc?: string;
   login: string;
 };
 
-export const DashboardNavbar: FC<DashboardNavbar> = (props) => {
-  const { avatarSrc, login = "login", className, ...rest } = props;
+export const AppNavbar: FC<AppNavbarProps> = (props) => {
+  const { avatarSrc, login, className, ...rest } = props;
+  const t = useTranslations("layout.application.navbar");
 
   const dropdownItems = useMemo<
     ({ label: string; to?: ProjectPageUrls; onClick?: () => void } | null)[]
   >(
     () => [
-      { label: "Profile", to: ProjectPageUrls.dashboard },
+      { label: t("profile"), to: ProjectPageUrls.dashboard },
       null,
-      { label: "Logout", onClick: signOut },
+      { label: t("logout"), onClick: signOut },
     ],
-    []
+    [t]
   );
 
   return (
@@ -38,7 +40,7 @@ export const DashboardNavbar: FC<DashboardNavbar> = (props) => {
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
             <button>
-              <span className="sr-only">Open user menu</span>
+              <span className="sr-only">{t("user-menu")}</span>
               <Avatar
                 src={avatarSrc}
                 radius="full"

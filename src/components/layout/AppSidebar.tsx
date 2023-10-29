@@ -1,25 +1,28 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { Brand } from "../base/Brand";
 import { Icon, IconNames } from "../base/Icon";
 
-export type DashboardSidebarItem = {
+export type AppSidebarItem = {
   label: string;
   to: string;
   onClick?: () => void;
   icon: IconNames;
 };
 
-export type DashboardSidebarProps = ComponentPropsWithoutRef<"aside"> & {
-  lists: DashboardSidebarItem[][];
+export type AppSidebarProps = ComponentPropsWithoutRef<"aside"> & {
+  lists: AppSidebarItem[][];
   brandHref: string;
 };
 
-export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
+export const AppSidebar: FC<AppSidebarProps> = (props) => {
   const { brandHref, lists, className, ...rest } = props;
+  const t = useTranslations("layout.application.sidebar");
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,7 +38,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
         !isOpen && "-translate-x-full",
         className
       )}
-      aria-label="Sidenav"
+      aria-label={t("title")}
     >
       <Brand href={brandHref} isTextHidden={!isExpanded} />
       <div className="mt-5 overflow-y-auto h-full">
@@ -88,6 +91,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
         type="button"
         className="absolute bottom-7 left-full translate-x-3 z-10 border rounded-full p-2 md:hidden"
         onClick={toggleOpen}
+        aria-label={isOpen ? t("close-sidebar") : t("open-sidebar")}
       >
         <Icon name={!isOpen ? "HiMenu" : "HiOutlineXCircle"} size={24} />
       </button>
