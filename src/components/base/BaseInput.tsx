@@ -12,13 +12,29 @@ export type BaseInputProps = Omit<
 };
 
 export const BaseInput: FC<BaseInputProps> = (props) => {
-  const { type, ...rest } = props;
+  const { endContent, type, ...rest } = props;
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const currentType =
     type !== "password" ? type : isVisible ? "text" : "password";
+
+  const endContentJSX =
+    type === "password" ? (
+      <button
+        className="focus:outline-none"
+        type="button"
+        onClick={toggleVisibility}
+      >
+        <Icon
+          name={isVisible ? "HiEyeOff" : "HiEye"}
+          className="text-2xl text-default-400 pointer-events-none"
+        />
+      </button>
+    ) : (
+      endContent
+    );
 
   return (
     // @ts-ignore
@@ -27,22 +43,9 @@ export const BaseInput: FC<BaseInputProps> = (props) => {
       type={currentType}
       variant="bordered"
       labelPlacement="outside"
-      placeholder={rest.placeholder || ""}
+      placeholder={rest.placeholder || " "}
       radius="sm"
-      endContent={
-        type === "password" && (
-          <button
-            className="focus:outline-none"
-            type="button"
-            onClick={toggleVisibility}
-          >
-            <Icon
-              name={isVisible ? "HiEyeOff" : "HiEye"}
-              className="text-2xl text-default-400 pointer-events-none"
-            />
-          </button>
-        )
-      }
+      endContent={endContentJSX}
     />
   );
 };

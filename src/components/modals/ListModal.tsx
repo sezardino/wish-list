@@ -1,23 +1,25 @@
+import { useTranslations } from "next-intl";
 import { type FC } from "react";
+import { BaseModal, BaseModalProps } from "../base/BaseModal";
+import { ListForm } from "../forms/ListForm";
 
-export interface ListModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+export type ListModalProps = Omit<
+  BaseModalProps,
+  "children" | "title" | "description" | "size"
+> & {};
 
 export const ListModal: FC<ListModalProps> = (props) => {
-  const { isOpen, onClose } = props;
+  const { ...rest } = props;
+  const t = useTranslations("modals.list-create");
 
-  const closeHandler = (status: boolean) => (!status ? onClose() : undefined);
-  console.log(isOpen);
-  return null;
-  // <Dialog.Root open={isOpen} onOpenChange={closeHandler}>
-  //   <Dialog.Content>
-  //     <Dialog.Title>Edit profile</Dialog.Title>
-  //     <Dialog.Description size="2" mb="4">
-  //       Make changes to your profile.
-  //     </Dialog.Description>
-  //     <ListForm />
-  //   </Dialog.Content>
-  // </Dialog.Root>
+  return (
+    <BaseModal
+      {...rest}
+      size="2xl"
+      title={t("title")}
+      description={t("description")}
+    >
+      <ListForm />
+    </BaseModal>
+  );
 };

@@ -32,7 +32,7 @@ export type TypographyTag =
 type TypographyWeight = "medium" | "regular" | "semi" | "bold";
 
 export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
-  size?: TypographySize;
+  styling?: TypographySize;
   tag: TypographyTag;
   children?: string;
   weight?: TypographyWeight;
@@ -54,7 +54,7 @@ export const Typography: FC<TypographyProps> = (props) => {
   const {
     tag: Tag,
     children: text,
-    size = "base",
+    styling: size = "base",
     weight = "regular",
     isCentered,
     isHidden,
@@ -65,11 +65,36 @@ export const Typography: FC<TypographyProps> = (props) => {
     ...rest
   } = props;
 
+  const weightMap = {
+    medium: "font-medium",
+    regular: "font-normal",
+    semi: "font-semibold",
+    bold: "font-bold",
+  };
+
+  const sizeMap = {
+    xs: "text-xs",
+    sm: "text-sm",
+    base: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+    "2xl": "text-2xl",
+    "3xl": "text-3xl",
+    "4xl": "text-4xl",
+    "5xl": "text-5xl",
+    "6xl": "text-6xl",
+    "7xl": "text-7xl",
+    "8xl": "text-8xl",
+    "9xl": "text-9xl",
+  };
+
   return (
     <Tag
       {...rest}
       className={twMerge(
-        `text-${size} font-${weight} text-gray-900`,
+        `text-gray-900`,
+        sizeMap[size],
+        weightMap[weight],
         isCentered && "text-center",
         isHidden && "sr-only",
         isUnderlined && "underline",
