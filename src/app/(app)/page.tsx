@@ -4,7 +4,7 @@ import { getNextAuthSession } from "@/libs/next-auth";
 import { redirect } from "next/navigation";
 
 const HomePage = async () => {
-  const session = getNextAuthSession();
+  const session = await getNextAuthSession();
 
   if (!session) redirect(ProjectPageUrls.about);
 

@@ -1,16 +1,26 @@
+import { ListPrivacy } from "@prisma/client";
 import { g } from "garph";
+import { ItemGQL } from ".";
+import { DateGQL } from "./scalars";
 
-export const ListPrivacyGQL = g.enumType("ListPrivacy", {
-  PUBLIC: "PUBLIC",
-  PRIVATE: "PRIVATE",
-  LINK: "LINK",
-});
+export const ListPrivacyGQL = g.enumType("ListPrivacy", ListPrivacy);
 
 export const ListGQL = g.type("List", {
-  id: g.string(),
+  id: g.id(),
+
   name: g.string(),
+  category: g.string().optional(),
+  tags: g.string().list(),
+  description: g.string(),
+  icon: g.string().optional(),
+
   privacy: ListPrivacyGQL,
+  averagePrice: g.float().optional(),
+
   ownerId: g.string(),
   hash: g.string().optional(),
-  // owner: g.ref("User"),
+  items: g.ref(ItemGQL).list(),
+
+  createdAt: DateGQL,
+  updatedAt: DateGQL,
 });

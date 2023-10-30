@@ -30,11 +30,11 @@ model List {
   name        String
   category    String?
   tags        String[] @default([])
-  description String?
+  description String   @default("")
   icon        String?
 
   privacy      ListPrivacy @default(PRIVATE)
-  avaragePrice Float?      @map("avarage_price")
+  averagePrice Float       @default(0) @map("avarage_price")
 
   owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @map("owner_id")
@@ -61,10 +61,10 @@ enum ItemPriority {
 }
 
 model Item {
-  id           String  @id @default(cuid())
+  id           String @id @default(cuid())
   name         String
-  avaragePrice Float   @map("avarage_price")
-  description  String?
+  averagePrice Float  @default(0) @map("avarage_price")
+  description  String @default("")
   // TODO: add image
 
   category String?

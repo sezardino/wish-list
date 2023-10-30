@@ -1,3 +1,28 @@
 import { AbstractBllModule } from "../../helpers";
+import { CreateListDto } from "./dto";
 
-export class ListBllModule extends AbstractBllModule {}
+export class ListBllModule extends AbstractBllModule {
+  create(dto: CreateListDto) {
+    const { name, ownerId, category, description, icon, tags } = dto;
+
+    const filteredTags =
+      (tags?.filter((tag) => tag !== null && tag !== undefined) as string[]) ||
+      [];
+
+    return this.prismaService.list.create({
+      include: { items: true },
+      data: {
+        name,
+        category,
+        description: description || "",
+        icon,
+        tags: filteredTags,
+        owner: {
+          connect: {
+            id: ownerId,
+          },
+        },
+      },
+    });
+  }
+}
