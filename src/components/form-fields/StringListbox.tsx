@@ -16,7 +16,7 @@ export type StringListboxProps<
 > = ComponentPropsWithoutRef<"div"> &
   Pick<
     ControlledListboxProps<T, V>,
-    "control" | "name" | "label" | "placeholder" | "noFound"
+    "control" | "name" | "label" | "placeholder" | "noFound" | "isSingleValue"
   > & {
     items: string[];
     selected?: string[];
@@ -36,6 +36,7 @@ export const StringListbox = <T extends FieldValues, V extends BaseListBoxItem>(
     selected,
     selectedCopy,
     createCopy,
+    isSingleValue,
     control,
     name,
     items,
@@ -74,6 +75,7 @@ export const StringListbox = <T extends FieldValues, V extends BaseListBoxItem>(
       <ControlledListbox
         control={control}
         name={name}
+        isSingleValue={isSingleValue}
         items={formattedItems}
         label={label}
         placeholder={placeholder}

@@ -18,7 +18,7 @@ export type BaseListBoxItem = {
 
 type OmittedComboboxProps<Value extends BaseListBoxItem> = Omit<
   ComboboxProps<Value, false, true, "div">,
-  "multiple" | "nullable" | "className"
+  "multiple" | "nullable" | "className" | "onChange"
 >;
 
 type BaseListItemRenderFunction = (input: string) => ReactNode;
@@ -40,6 +40,8 @@ export type BaseListboxProps<Value extends BaseListBoxItem> =
       label: string;
       value: string | string[];
       renderItem?: BaseListItemRenderFun<Value>;
+      isSingleValue?: boolean;
+      onChange: (value: Value[]) => void;
     };
 
 export const BaseListbox = <Value extends BaseListBoxItem>(
@@ -49,6 +51,7 @@ export const BaseListbox = <Value extends BaseListBoxItem>(
     renderItem = defaultRenderItem,
     errorMessage,
     isInvalid,
+    isSingleValue = false,
     description,
     value,
     items,
@@ -57,6 +60,7 @@ export const BaseListbox = <Value extends BaseListBoxItem>(
     lastElement,
     placeholder,
     className,
+    onChange,
     ...rest
   } = props;
   const [input, setInput] = useState("");
@@ -90,6 +94,17 @@ export const BaseListbox = <Value extends BaseListBoxItem>(
       value={value}
       multiple={true}
       nullable={false}
+      onChange={(value) => {
+        if (!Array.isArray(value)) return;
+
+        const filteredValues = value.filter((item) => item !== null) as Value[];
+
+        if (isSingleValue) {
+          onChange([filteredValues[filteredValues.length - 1]]);
+        } else {
+          onChange(filteredValues);
+        }
+      }}
       className={twMerge("relative", className)}
     >
       <Combobox.Input
@@ -141,11 +156,15 @@ export const BaseListbox = <Value extends BaseListBoxItem>(
               ))}
               {!!lastElementJSX && (
                 <li>
-                  <hr className="border-gray-200" />
+                  {!!filteredItems.length && <hr className="border-gray-200" />}
                   <Combobox.Option
                     value={null}
                     className={({ active }) =>
-                      twMerge(itemClassName, "mt-1", active && "bg-gray-100")
+                      twMerge(
+                        itemClassName,
+                        !filteredItems.length && "mt-1",
+                        active && "bg-gray-100"
+                      )
                     }
                   >
                     {lastElementJSX}

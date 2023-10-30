@@ -13,7 +13,7 @@ import { StringListbox } from "../form-fields/StringListbox";
 
 export type ListFormValues = {
   name: string;
-  category: string;
+  category: string[];
   tags: string[];
   description: string;
   icon: string;
@@ -34,8 +34,8 @@ export const ListForm: FC<ListFormProps> = (props) => {
         name: z
           .string({ required_error: t("name.required") })
           .min(1, { message: t("name.required") }),
-        category: z.string({ required_error: t("category.required") }),
         tags: z.array(z.string()),
+        category: z.array(z.string()),
         description: z.string({ required_error: t("description.required") }),
         icon: z.string({ required_error: t("icon.required") }),
       })
@@ -44,41 +44,53 @@ export const ListForm: FC<ListFormProps> = (props) => {
 
   return (
     <form {...rest} className={twMerge("grid grid-cols-1 gap-2", className)}>
-      <StringListbox
-        control={control}
-        selected={watch("tags")}
-        name="tags"
-        createCopy="Create tag:"
-        items={tags}
-        label="Tags"
-        placeholder="Select, or create new tag"
-        selectedCopy="Selected tags: "
-        noFound="Tags not found, type something to create new one"
-      />
+      <div className="grid md:grid-cols-2 gap-3">
+        <ControlledInput
+          name="name"
+          control={control}
+          label={t("name.label")}
+          placeholder={t("name.placeholder")}
+        />
 
-      <ControlledInput
-        name="name"
-        control={control}
-        label={t("name.label")}
-        placeholder={t("name.placeholder")}
-      />
-      <ControlledInput
-        name="category"
-        control={control}
-        label={t("name.label")}
-        placeholder={t("name.placeholder")}
-      />
+        <ControlledInput
+          name="icon"
+          control={control}
+          label={t("icon.label")}
+          placeholder={t("icon.placeholder")}
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-3">
+        <StringListbox
+          control={control}
+          selected={watch("category")}
+          name="category"
+          isSingleValue
+          createCopy="Create Category:"
+          items={categories}
+          label="Category"
+          placeholder="Select, or create new category"
+          selectedCopy="Selected category: "
+          noFound="Category not found, type something to create new one"
+        />
+        <StringListbox
+          control={control}
+          selected={watch("tags")}
+          name="tags"
+          createCopy="Create tag:"
+          items={tags}
+          label="Tags"
+          placeholder="Select, or create new tag"
+          selectedCopy="Selected tags: "
+          noFound="Tags not found, type something to create new one"
+        />
+      </div>
+
       <ControlledInput
         name="description"
         control={control}
-        label={t("name.label")}
-        placeholder={t("name.placeholder")}
-      />
-      <ControlledInput
-        name="icon"
-        control={control}
-        label={t("name.label")}
-        placeholder={t("name.placeholder")}
+        label={t("description.label")}
+        placeholder={t("description.placeholder")}
       />
 
       <div className="mt-2 flex flex-wrap gap-3 justify-between items-center">

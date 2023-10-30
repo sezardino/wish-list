@@ -19,7 +19,7 @@ export const ListModal: FC<ListModalProps> = (props) => {
       title={t("title")}
       description={t("description")}
     >
-      <ListForm />
+      <ListForm tags={[]} categories={[]} />
     </BaseModal>
   );
 };
