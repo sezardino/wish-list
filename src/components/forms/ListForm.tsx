@@ -9,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { BaseListBoxItem } from "../base/BaseListbox";
 import { ControlledInput } from "../form-fields/ControlledInput";
+import { ControlledTextarea } from "../form-fields/ControlledTextarea";
 import { StringListbox } from "../form-fields/StringListbox";
 
 export type ListFormValues = {
@@ -86,7 +87,7 @@ export const ListForm: FC<ListFormProps> = (props) => {
         />
       </div>
 
-      <ControlledInput
+      <ControlledTextarea
         name="description"
         control={control}
         label={t("description.label")}
