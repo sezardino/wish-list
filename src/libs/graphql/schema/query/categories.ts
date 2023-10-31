@@ -4,4 +4,4 @@ import { TagCategoryGQL } from "../../entity/scalars";
 export const categoriesQueryType = g
   .string()
   .list()
-  .args({ type: TagCategoryGQL });
+  .args({ type: g.ref(TagCategoryGQL).optional() });
