@@ -27,7 +27,7 @@ export const Brand: FC<BrandProps> = (props) => {
       {!isTextHidden && (
         <Typography
           tag="span"
-          size="lg"
+          styling="lg"
           weight="bold"
           className="self-center whitespace-nowrap"
         >

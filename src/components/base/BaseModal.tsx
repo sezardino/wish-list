@@ -26,7 +26,7 @@ export const BaseModal: FC<BaseModalProps> = (props) => {
         {(title || description) && (
           <ModalHeader className="flex flex-col gap-1">
             {title && (
-              <Typography tag="h2" size="lg" weight="bold">
+              <Typography tag="h2" styling="lg" weight="bold">
                 {title}
               </Typography>
             )}

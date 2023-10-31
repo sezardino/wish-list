@@ -3,7 +3,7 @@ import {
   MutationReturn,
   QueryArguments,
   QueryReturn,
-} from "@/libs/graphql/schema";
+} from "@/libs/graphql";
 import { AbstractApiModule } from "../../helpers";
 import { isLoginAvailableQuery } from "./queries/is-login-available";
 import { registrationQuery } from "./queries/registration";

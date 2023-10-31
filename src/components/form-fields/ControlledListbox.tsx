@@ -36,6 +36,7 @@ export const ControlledListbox = <
   };
 
   return (
+    // @ts-ignore
     <BaseListbox
       {...rest}
       {...field}

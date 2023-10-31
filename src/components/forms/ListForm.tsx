@@ -23,28 +23,37 @@ export const animals: BaseListBoxItem[] = [];
 export interface ListFormProps extends ComponentPropsWithoutRef<"form"> {
   tags: string[];
   categories: string[];
+  onFormSubmit: (values: ListFormValues) => void;
 }
 
 export const ListForm: FC<ListFormProps> = (props) => {
-  const { tags, categories, className, ...rest } = props;
+  const { onFormSubmit, tags, categories, className, ...rest } = props;
   const t = useTranslations("forms.list-create");
 
-  const { control, watch } = useForm<ListFormValues>({
+  const { control, watch, handleSubmit } = useForm<ListFormValues>({
     resolver: zodResolver(
       z.object({
         name: z
           .string({ required_error: t("name.required") })
           .min(1, { message: t("name.required") }),
-        tags: z.array(z.string()),
-        category: z.array(z.string()),
-        description: z.string({ required_error: t("description.required") }),
-        icon: z.string({ required_error: t("icon.required") }),
+        tags: z.array(z.string()).optional(),
+        category: z.array(z.string()).optional(),
+        description: z
+          .string({ required_error: t("description.required") })
+          .optional(),
+        icon: z.string({ required_error: t("icon.required") }).optional(),
       })
     ),
   });
 
+  const onSubmit = (values: ListFormValues) => onFormSubmit(values);
+
   return (
-    <form {...rest} className={twMerge("grid grid-cols-1 gap-2", className)}>
+    <form
+      {...rest}
+      className={twMerge("grid grid-cols-1 gap-2", className)}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="grid md:grid-cols-2 gap-3">
         <ControlledInput
           name="name"
@@ -96,7 +105,7 @@ export const ListForm: FC<ListFormProps> = (props) => {
 
       <div className="mt-2 flex flex-wrap gap-3 justify-between items-center">
         <Button color="danger">{t("cancel")}</Button>
-        <Button>{t("submit")}</Button>
+        <Button type="submit">{t("submit")}</Button>
       </div>
     </form>
   );

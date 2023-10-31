@@ -1,22 +1,20 @@
-import { Infer, InferArgs, buildSchema, g } from "garph";
-import { graphqlResolvers } from "../resolvers";
-import { createListMutationType } from "./mutation/create-list";
-import { registrationMutationType } from "./mutation/registration";
-import { isLoginAvailableQueryType } from "./query/is-login-available";
+export * from "./types";
 
-export const queryType = g.type("Query", {
-  isLoginAvailable: isLoginAvailableQueryType,
-});
+import { buildSchema, g } from "garph";
 
-export const mutationType = g.type("Mutation", {
-  registration: registrationMutationType,
-  createList: createListMutationType,
-});
+import { GraphqlResolvers } from ".";
+import { mutationResolvers } from "../resolvers/mutations";
+import { queryResolvers } from "../resolvers/query";
+import { mutations } from "./mutation";
+import { queries } from "./query";
 
-export type QueryArguments = InferArgs<typeof queryType>;
-export type QueryReturn = Infer<typeof queryType>;
-export type MutationArguments = InferArgs<typeof mutationType>;
-export type MutationReturn = Infer<typeof mutationType>;
+export const queryType = g.type("Query", queries);
+export const mutationType = g.type("Mutation", mutations);
+
+export const graphqlResolvers: GraphqlResolvers = {
+  Query: queryResolvers,
+  Mutation: mutationResolvers,
+};
 
 export const graphqlSchema = buildSchema({
   g,

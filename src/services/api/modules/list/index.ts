@@ -1,4 +1,4 @@
-import { MutationArguments, MutationReturn } from "@/libs/graphql/schema";
+import { MutationArguments, MutationReturn } from "@/libs/graphql";
 import { AbstractApiModule } from "../../helpers";
 import { createListQuery } from "./queries/create-list";
 

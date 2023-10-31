@@ -4,7 +4,6 @@ export const createListQuery = gql`
   mutation CreateList(
     $name: String!
     $icon: String
-    $ownerId: ID!
     $category: String
     $tags: [String]
     $description: String
@@ -12,7 +11,6 @@ export const createListQuery = gql`
     createList(
       name: $name
       icon: $icon
-      ownerId: $ownerId
       category: $category
       tags: $tags
       description: $description

@@ -1,3 +1,7 @@
+export * from "./entity";
+export * from "./resolvers";
+export * from "./schema";
+
 import { YogaInitialContext, createYoga } from "graphql-yoga";
 
 import { User } from "next-auth";
@@ -14,7 +18,7 @@ export const { handleRequest: graphqlRequest } = createYoga<GraphqlContext>({
     const session = await getNextAuthSession();
 
     return {
-      session,
+      user: session?.user,
     };
   },
 });

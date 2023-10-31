@@ -1,7 +1,7 @@
 import { bllService } from "@/services/bll";
-import { GraphqlResolvers } from ".";
+import { GraphqlMutations } from "..";
 
-export const mutationResolvers: GraphqlResolvers["Mutation"] = {
+export const mutationResolvers: GraphqlMutations = {
   registration: async (_, { login, password }, { user }) => {
     if (user) throw new Error("You are already registered");
 

@@ -4,3 +4,10 @@ export const DateGQL = g.scalarType<Date, string>("Date", {
   serialize: (value) => value.toString(),
   parseValue: (value) => new Date(value),
 });
+
+export enum TagCategoryType {
+  LIST = "LIST",
+  ITEM = "ITEM",
+}
+
+export const TagCategoryGQL = g.enumType("TagCategory", TagCategoryType);

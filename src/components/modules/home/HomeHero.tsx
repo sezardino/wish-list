@@ -24,7 +24,7 @@ export const HomeHero: FC<HomeHeroProps> = (props) => {
       <div className="mr-auto place-self-center lg:col-span-7">
         <Typography
           tag="h1"
-          size="6xl"
+          styling="6xl"
           weight={"bold"}
           className="max-w-2xl mb-4tracking-tight"
         >
@@ -33,7 +33,7 @@ export const HomeHero: FC<HomeHeroProps> = (props) => {
 
         <Typography
           tag="p"
-          size="lg"
+          styling="lg"
           className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8"
         >
           {t("description")}

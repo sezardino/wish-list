@@ -5,7 +5,6 @@ export const createListMutationType = g
   .ref(ListGQL)
   .args({
     name: g.string(),
-    // ownerId: g.id(),
     icon: g.string().optional(),
     category: g.string().optional(),
     tags: g.string().optional().list().optional(),

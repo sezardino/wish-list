@@ -1,7 +1,7 @@
 import { bllService } from "@/services/bll";
-import { GraphqlResolvers } from ".";
+import { GraphqlQueries } from "..";
 
-export const queryResolvers: GraphqlResolvers["Query"] = {
+export const queryResolvers: GraphqlQueries = {
   isLoginAvailable: async (_, { login }) =>
     await bllService.user.isLoginAvailable(login),
 };

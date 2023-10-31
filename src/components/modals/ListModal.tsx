@@ -1,15 +1,17 @@
 import { useTranslations } from "next-intl";
 import { type FC } from "react";
 import { BaseModal, BaseModalProps } from "../base/BaseModal";
-import { ListForm } from "../forms/ListForm";
+import { ListForm, ListFormProps } from "../forms/ListForm";
 
 export type ListModalProps = Omit<
   BaseModalProps,
   "children" | "title" | "description" | "size"
-> & {};
+> & {
+  onFormSubmit: ListFormProps["onFormSubmit"];
+};
 
 export const ListModal: FC<ListModalProps> = (props) => {
-  const { ...rest } = props;
+  const { onFormSubmit, ...rest } = props;
   const t = useTranslations("modals.list-create");
 
   return (
@@ -19,7 +21,7 @@ export const ListModal: FC<ListModalProps> = (props) => {
       title={t("title")}
       description={t("description")}
     >
-      <ListForm tags={[]} categories={[]} />
+      <ListForm tags={[]} categories={[]} onFormSubmit={onFormSubmit} />
     </BaseModal>
   );
 };
