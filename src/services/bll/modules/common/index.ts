@@ -94,7 +94,7 @@ export class CommonBllModule extends AbstractBllModule {
         ])
       );
     }
-    console.log(allCategories);
+
     return allCategories;
   }
 }

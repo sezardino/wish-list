@@ -23,8 +23,6 @@ const HomePage = () => {
           category: values.category?.[0],
         });
 
-        console.log(1, response);
-
         if (!response.createList) return;
       } catch (error) {
         console.log(error);
