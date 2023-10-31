@@ -51,7 +51,7 @@ export const ListForm: FC<ListFormProps> = (props) => {
   return (
     <form
       {...rest}
-      className={twMerge("grid grid-cols-1 gap-2", className)}
+      className={twMerge("grid grid-cols-1 gap-6", className)}
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="grid md:grid-cols-2 gap-3">

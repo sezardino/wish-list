@@ -1,3 +1,4 @@
+import { useTagsAndCategoriesQuery } from "@/hooks/react-query/query/tags-and-categories";
 import { reactToastify } from "@/libs/react-toastify";
 import { apiService } from "@/services/api";
 import { useTranslations } from "next-intl";
@@ -13,6 +14,8 @@ export type ListModalProps = Omit<
 export const ListModal: FC<ListModalProps> = (props) => {
   const t = useTranslations("modals.list-create");
   const toastsT = useTranslations("toasts");
+  const { data: tagsAndCategoriesData, isLoading: isTagsAndCategoriesLoading } =
+    useTagsAndCategoriesQuery();
 
   const createListHandler = useCallback(
     async (values: ListFormValues) => {
@@ -46,8 +49,13 @@ export const ListModal: FC<ListModalProps> = (props) => {
       size="2xl"
       title={t("title")}
       description={t("description")}
+      className="py-4"
     >
-      <ListForm tags={[]} categories={[]} onFormSubmit={createListHandler} />
+      <ListForm
+        tags={tagsAndCategoriesData?.tags || []}
+        categories={tagsAndCategoriesData?.categories || []}
+        onFormSubmit={createListHandler}
+      />
     </BaseModal>
   );
 };

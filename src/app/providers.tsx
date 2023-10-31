@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactQueryProvider } from "@/libs/react-query";
 import { NextUIProvider } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
@@ -21,10 +22,12 @@ export const RootLayoutProviders = ({
   return (
     <SessionProvider session={session}>
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <NextUIProvider>
-          {children}
-          <ToastContainer />
-        </NextUIProvider>
+        <ReactQueryProvider>
+          <NextUIProvider>
+            {children}
+            <ToastContainer />
+          </NextUIProvider>
+        </ReactQueryProvider>
       </NextIntlClientProvider>
     </SessionProvider>
   );
