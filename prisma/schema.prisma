@@ -16,6 +16,7 @@ model User {
   password String
   // todo add image
   lists    List[]
+  items    Item[]
 }
 
 enum ListPrivacy {
@@ -72,6 +73,9 @@ model Item {
 
   list   List   @relation(fields: [listId], references: [id])
   listId String @map("list_id")
+
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @map("owner_id")
 
   links ItemLink[]
 
