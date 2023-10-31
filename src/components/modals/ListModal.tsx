@@ -1,27 +1,53 @@
+import { reactToastify } from "@/libs/react-toastify";
+import { apiService } from "@/services/api";
 import { useTranslations } from "next-intl";
-import { type FC } from "react";
+import { useCallback, type FC } from "react";
 import { BaseModal, BaseModalProps } from "../base/BaseModal";
-import { ListForm, ListFormProps } from "../forms/ListForm";
+import { ListForm, ListFormValues } from "../forms/ListForm";
 
 export type ListModalProps = Omit<
   BaseModalProps,
   "children" | "title" | "description" | "size"
-> & {
-  onFormSubmit: ListFormProps["onFormSubmit"];
-};
+> & {};
 
 export const ListModal: FC<ListModalProps> = (props) => {
-  const { onFormSubmit, ...rest } = props;
   const t = useTranslations("modals.list-create");
+  const toastsT = useTranslations("toasts");
+
+  const createListHandler = useCallback(
+    async (values: ListFormValues) => {
+      try {
+        const response = await apiService.list.create({
+          ...values,
+          category: values.category?.[0],
+        });
+
+        if (!response.createList) throw new Error();
+
+        reactToastify({
+          type: "success",
+          message: toastsT("list-create.success"),
+        });
+        props.onClose();
+      } catch (error) {
+        console.log(error);
+        reactToastify({
+          type: "error",
+          message: toastsT("list-create.error"),
+        });
+      }
+    },
+    [props, toastsT]
+  );
 
   return (
     <BaseModal
-      {...rest}
+      {...props}
       size="2xl"
       title={t("title")}
       description={t("description")}
     >
-      <ListForm tags={[]} categories={[]} onFormSubmit={onFormSubmit} />
+      <ListForm tags={[]} categories={[]} onFormSubmit={createListHandler} />
     </BaseModal>
   );
 };

@@ -50,6 +50,10 @@
     "registration": {
       "success": "You have successfully registered",
       "error": "Registration failed"
+    },
+    "list-create": {
+      "success": "You have successfully created new list",
+      "error": "List creation failed"
     }
   },
   "layout": {
