@@ -16,4 +16,13 @@ export const mutationResolvers: GraphqlMutations = {
       ownerId: user.id,
     });
   },
+
+  createItem: async (_, args, { user }) => {
+    if (!user) throw new Error("You are not authorized");
+
+    return await bllService.item.create({
+      ...args,
+      ownerId: user.id,
+    });
+  },
 };

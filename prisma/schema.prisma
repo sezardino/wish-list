@@ -87,9 +87,9 @@ model Item {
 }
 
 model ItemLink {
-  id    String @id @default(cuid())
-  label String
-  href  String
+  id   String @id @default(cuid())
+  name String
+  href String
 
   item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId String @map("item_id")
