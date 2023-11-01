@@ -33,7 +33,7 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("auth-form");
+  const t = useTranslations("forms.auth");
 
   const { handleSubmit, control, setError, formState } =
     useForm<AuthFormValues>({

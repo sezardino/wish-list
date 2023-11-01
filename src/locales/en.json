@@ -13,27 +13,7 @@
       "link": "Already have an account? Login here."
     }
   },
-  "auth-form": {
-    "login": {
-      "label": "Login",
-      "placeholder": "Enter your login",
-      "required": "Login is required",
-      "invalid": "Login is invalid",
-      "used": "Login is already used"
-    },
-    "password": {
-      "label": "Password",
-      "placeholder": "Enter your password",
-      "required": "Password is required",
-      "min-length": "Min length is {value} symbols"
-    },
-    "repeat-password": {
-      "label": "Repeat Password",
-      "placeholder": "Repeat your password",
-      "required": "You should repeat your password",
-      "not-match": "Passwords do not match"
-    }
-  },
+
   "home": {
     "hero": {
       "title": "Welcome to the home page",
@@ -95,39 +75,94 @@
     }
   },
   "forms": {
+    "auth": {
+      "login": {
+        "label": "Login",
+        "placeholder": "Enter your login",
+        "required": "Login is required",
+        "invalid": "Login is invalid",
+        "used": "Login is already used"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "required": "Password is required",
+        "min-length": "Min length is {value} symbols"
+      },
+      "repeat-password": {
+        "label": "Repeat Password",
+        "placeholder": "Repeat your password",
+        "required": "You should repeat your password",
+        "not-match": "Passwords do not match"
+      }
+    },
     "list-create": {
       "cancel": "Cancel",
       "submit": "Create",
       "name": {
-        "label": "List name",
-        "placeholder": "Enter list name",
-        "required": "List name is required",
+        "label": "Name",
+        "placeholder": "birthday",
+        "required": "Name is required",
         "min-length": "Min length is {value} symbols",
         "max-length": "Max length is {value} symbols"
       },
       "category": {
-        "label": "List category",
-        "placeholder": "Select list category",
-        "required": "List category is required"
+        "label": "Category",
+        "placeholder": "cool stuff",
+        "required": "Category is required"
       },
       "description": {
-        "label": "List description",
-        "placeholder": "Enter list description",
-        "required": "List description is required",
-        "min-length": "Min length is {value} symbols",
+        "label": "Description",
+        "placeholder": "Enter description",
         "max-length": "Max length is {value} symbols"
       },
       "icon": {
-        "label": "List icon",
-        "placeholder": "Select list icon",
-        "required": "List icon is required"
+        "label": "Icon",
+        "placeholder": "Select",
+        "required": "Icon is required"
       },
       "tags": {
-        "label": "List tags",
-        "placeholder": "Enter list tags",
-        "required": "List tags are required",
+        "label": "Tags",
+        "placeholder": "awesome, cool, nice"
+      }
+    },
+    "item-create": {
+      "cancel": "Cancel",
+      "submit": "Create",
+      "name": {
+        "label": "Name",
+        "placeholder": "Macbook pro max",
+        "required": "List name is required",
         "min-length": "Min length is {value} symbols",
         "max-length": "Max length is {value} symbols"
+      },
+      "average-price": {
+        "label": "Average price",
+        "placeholder": "20",
+        "description": "Average price of the product",
+        "required": "Price is required",
+        "positive": "Price should be positive"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "type something nice...",
+        "max-length": "Max length is {value} symbols"
+      },
+      "list": {
+        "label": "List",
+        "placeholder": "Select",
+        "description": "Select list where product will be added",
+        "no-found": "No lists found",
+        "required": "Product list is required"
+      },
+      "category": {
+        "label": "Category",
+        "placeholder": "Select category",
+        "required": "Category is required"
+      },
+      "tags": {
+        "label": "Tags",
+        "placeholder": "awesome, cool, nice"
       }
     }
   }

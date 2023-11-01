@@ -1,8 +1,10 @@
 import { Combobox, ComboboxProps, Transition } from "@headlessui/react";
 import {
+  ForwardRefRenderFunction,
   Fragment,
   ReactElement,
   ReactNode,
+  forwardRef,
   useEffect,
   useMemo,
   useState,
@@ -44,9 +46,10 @@ export type BaseListboxProps<Value extends BaseListBoxItem> =
       onChange: (value: Value[]) => void;
     };
 
-export const BaseListbox = <Value extends BaseListBoxItem>(
-  props: BaseListboxProps<Value>
-) => {
+const BaseListboxComponent: ForwardRefRenderFunction<
+  HTMLElement,
+  BaseListboxProps<BaseListBoxItem>
+> = (props, ref) => {
   const {
     renderItem = defaultRenderItem,
     errorMessage,
@@ -91,13 +94,14 @@ export const BaseListbox = <Value extends BaseListBoxItem>(
     <Combobox
       {...rest}
       as="div"
+      ref={ref}
       value={value}
       multiple={true}
       nullable={false}
       onChange={(value) => {
         if (!Array.isArray(value)) return;
 
-        const filteredValues = value.filter((item) => item !== null) as Value[];
+        const filteredValues = value.filter((item) => item !== null);
 
         if (isSingleValue) {
           onChange([filteredValues[filteredValues.length - 1]]);
@@ -197,3 +201,5 @@ const defaultRenderItem: BaseListItemRenderFun<BaseListBoxItem> = ({
     )}
   </>
 );
+
+export const BaseListbox = forwardRef(BaseListboxComponent);

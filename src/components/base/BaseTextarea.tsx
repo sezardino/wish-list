@@ -1,19 +1,23 @@
 "use client";
 
 import { Textarea, TextAreaProps } from "@nextui-org/input";
-import { FC } from "react";
+import { forwardRef, ForwardRefRenderFunction } from "react";
 
 export type BaseTextareaProps = Omit<
   TextAreaProps,
   "variant" | "labelPlacement" | "radius" | "colors"
 > & {};
 
-export const BaseTextarea: FC<BaseTextareaProps> = (props) => {
+const BaseTextareaComponent: ForwardRefRenderFunction<
+  HTMLInputElement,
+  BaseTextareaProps
+> = (props, ref) => {
   const { type, ...rest } = props;
 
   return (
     <Textarea
       {...rest}
+      ref={ref}
       variant="bordered"
       labelPlacement="outside"
       placeholder={rest.placeholder || " "}
@@ -21,3 +25,5 @@ export const BaseTextarea: FC<BaseTextareaProps> = (props) => {
     />
   );
 };
+
+export const BaseTextarea = forwardRef(BaseTextareaComponent);

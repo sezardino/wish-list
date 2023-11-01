@@ -7,38 +7,43 @@ import { type ComponentPropsWithoutRef, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
-import { IconNames } from "../base/Icon";
-import { ControlledIconsSelect } from "../form-fields/ControlledIconsSelect";
 import { ControlledInput } from "../form-fields/ControlledInput";
+import { ControlledListbox } from "../form-fields/ControlledListbox";
 import { ControlledTextarea } from "../form-fields/ControlledTextarea";
 import { StringListbox } from "../form-fields/StringListbox";
 
-export type ListFormValues = {
+export type ItemFormValues = {
   name: string;
   category: string[];
   tags: string[];
   description: string;
-  icon: IconNames | undefined;
+  averagePrice: number;
+  listId: string;
+  links: { name: string; url: string }[];
 };
-export interface ListFormProps extends ComponentPropsWithoutRef<"form"> {
+
+export interface ItemFormProps extends ComponentPropsWithoutRef<"form"> {
+  lists: { id: string; name: string }[];
   tags: string[];
   categories: string[];
-  onFormSubmit: (values: ListFormValues) => void;
+  onFormSubmit: (values: ItemFormValues) => void;
 }
 
-export const ListForm: FC<ListFormProps> = (props) => {
-  const { onFormSubmit, tags, categories, className, ...rest } = props;
-  const t = useTranslations("forms.list-create");
+export const ItemForm: FC<ItemFormProps> = (props) => {
+  const { lists, onFormSubmit, tags, categories, className, ...rest } = props;
+  const t = useTranslations("forms.item-create");
 
-  const { control, watch, handleSubmit } = useForm<ListFormValues>({
+  const { control, watch, handleSubmit, formState } = useForm<ItemFormValues>({
+    mode: "onTouched",
     defaultValues: {
       name: "",
       category: [],
       tags: [],
       description: "",
-      icon: undefined,
+      averagePrice: 0,
+      listId: "",
+      links: [],
     },
-    mode: "onTouched",
     resolver: zodResolver(
       z.object({
         name: z
@@ -46,13 +51,17 @@ export const ListForm: FC<ListFormProps> = (props) => {
           .min(1, { message: t("name.required") }),
         tags: z.array(z.string()).optional(),
         category: z.array(z.string()).optional(),
+        averagePrice: z.preprocess(
+          (val) => Number(val),
+          z.number().min(0, "positive").max(20)
+        ),
         description: z.string().optional(),
-        icon: z.string({ required_error: t("icon.required") }).optional(),
+        list: z.array(z.string().optional()),
       })
     ),
   });
 
-  const onSubmit = (values: ListFormValues) => onFormSubmit(values);
+  const onSubmit = (values: ItemFormValues) => onFormSubmit(values);
 
   return (
     <form
@@ -60,6 +69,8 @@ export const ListForm: FC<ListFormProps> = (props) => {
       className={twMerge("grid grid-cols-1 gap-6", className)}
       onSubmit={handleSubmit(onSubmit)}
     >
+      {JSON.stringify({ formState })}
+      {JSON.stringify(watch())}
       <div className="grid md:grid-cols-2 gap-3">
         <ControlledInput
           name="name"
@@ -68,11 +79,13 @@ export const ListForm: FC<ListFormProps> = (props) => {
           placeholder={t("name.placeholder")}
         />
 
-        <ControlledIconsSelect
+        <ControlledInput
+          name="averagePrice"
+          type="number"
           control={control}
-          name="icon"
-          label={t("icon.label")}
-          placeholder={t("icon.placeholder")}
+          label={t("average-price.label")}
+          placeholder={t("average-price.placeholder")}
+          description={t("average-price.description")}
         />
       </div>
 
@@ -99,6 +112,18 @@ export const ListForm: FC<ListFormProps> = (props) => {
           placeholder="Select, or create new tag"
           selectedCopy="Selected tags: "
           noFound="Tags not found, type something to create new one"
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-3">
+        <ControlledListbox
+          control={control}
+          name="listId"
+          items={lists.map((l) => ({ id: l.id, label: l.name }))}
+          label={t("list.label")}
+          placeholder={t("list.placeholder")}
+          description={t("list.description")}
+          noFound={t("list.no-found")}
         />
       </div>
 

@@ -1,5 +1,5 @@
 import { Listbox, ListboxProps, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { ForwardRefRenderFunction, Fragment, forwardRef } from "react";
 import * as hiIcons from "react-icons/hi";
 import { BaseInput, BaseInputProps } from "./BaseInput";
 import { Icon, IconNames } from "./Icon";
@@ -13,7 +13,10 @@ export type IconsSelectProps = ListboxProps<"div", IconNames, IconNames> &
     className?: string;
   };
 
-export const IconsSelect = (props: IconsSelectProps) => {
+const IconsSelectComponent: ForwardRefRenderFunction<
+  HTMLElement,
+  IconsSelectProps
+> = (props, ref) => {
   const {
     value,
     errorMessage,
@@ -26,7 +29,7 @@ export const IconsSelect = (props: IconsSelectProps) => {
   } = props;
 
   return (
-    <Listbox {...rest} as="div" value={value} className="relative">
+    <Listbox {...rest} ref={ref} as="div" value={value} className="relative">
       <Listbox.Button
         as={BaseInput}
         label={label}
@@ -63,3 +66,5 @@ export const IconsSelect = (props: IconsSelectProps) => {
     </Listbox>
   );
 };
+
+export const IconsSelect = forwardRef(IconsSelectComponent);

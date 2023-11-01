@@ -1,7 +1,12 @@
 "use client";
 
 import { Input, InputProps } from "@nextui-org/input";
-import { FC, FocusEvent, useState } from "react";
+import {
+  FocusEvent,
+  ForwardRefRenderFunction,
+  forwardRef,
+  useState,
+} from "react";
 import { Icon } from "./Icon";
 
 export type BaseInputProps = Omit<
@@ -11,7 +16,10 @@ export type BaseInputProps = Omit<
   onBlur?: (evt: FocusEvent<HTMLInputElement, Element>) => void;
 };
 
-export const BaseInput: FC<BaseInputProps> = (props) => {
+const BaseInputComponent: ForwardRefRenderFunction<
+  HTMLInputElement,
+  BaseInputProps
+> = (props, ref) => {
   const { endContent, type, ...rest } = props;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -40,6 +48,7 @@ export const BaseInput: FC<BaseInputProps> = (props) => {
     // @ts-ignore
     <Input
       {...rest}
+      ref={ref}
       type={currentType}
       variant="bordered"
       labelPlacement="outside"
@@ -49,3 +58,7 @@ export const BaseInput: FC<BaseInputProps> = (props) => {
     />
   );
 };
+
+export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
+  BaseInputComponent
+);

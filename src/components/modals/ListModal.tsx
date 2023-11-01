@@ -15,7 +15,10 @@ export const ListModal: FC<ListModalProps> = (props) => {
   const t = useTranslations("modals.list-create");
   const toastsT = useTranslations("toasts");
   const { data: tagsAndCategoriesData, isLoading: isTagsAndCategoriesLoading } =
-    useTagsAndCategoriesQuery();
+    useTagsAndCategoriesQuery({
+      tags: { type: "LIST" },
+      categories: { type: "LIST" },
+    });
 
   const createListHandler = useCallback(
     async (values: ListFormValues) => {
