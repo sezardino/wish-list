@@ -14,11 +14,14 @@ export type ListModalProps = Omit<
 export const ListModal: FC<ListModalProps> = (props) => {
   const t = useTranslations("modals.list-create");
   const toastsT = useTranslations("toasts");
-  const { data: tagsAndCategoriesData, isLoading: isTagsAndCategoriesLoading } =
-    useTagsAndCategoriesQuery({
-      tags: { type: "LIST" },
-      categories: { type: "LIST" },
-    });
+  const {
+    data: tagsAndCategoriesData,
+    isFetching: isTagsAndCategoriesLoading,
+  } = useTagsAndCategoriesQuery({
+    tags: { type: "LIST" },
+    categories: { type: "LIST" },
+    enabled: props.isOpen || false,
+  });
 
   const createListHandler = useCallback(
     async (values: ListFormValues) => {

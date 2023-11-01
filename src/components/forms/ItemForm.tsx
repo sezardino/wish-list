@@ -51,10 +51,7 @@ export const ItemForm: FC<ItemFormProps> = (props) => {
           .min(1, { message: t("name.required") }),
         tags: z.array(z.string()).optional(),
         category: z.array(z.string()).optional(),
-        averagePrice: z.preprocess(
-          (val) => Number(val),
-          z.number().min(0, "positive").max(20)
-        ),
+        averagePrice: z.coerce.number().positive().optional(),
         description: z.string().optional(),
         list: z.array(z.string().optional()),
       })
@@ -69,8 +66,6 @@ export const ItemForm: FC<ItemFormProps> = (props) => {
       className={twMerge("grid grid-cols-1 gap-6", className)}
       onSubmit={handleSubmit(onSubmit)}
     >
-      {JSON.stringify({ formState })}
-      {JSON.stringify(watch())}
       <div className="grid md:grid-cols-2 gap-3">
         <ControlledInput
           name="name"

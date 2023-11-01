@@ -4,10 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 
 export const TAGS_AND_CATEGORIES_QUERY_KEY = "tags-and-categories";
 
+type UseTagsAndCategoriesQueryParams = TagsAndCategoriesRequest & {
+  enabled: boolean;
+};
+
 export const useTagsAndCategoriesQuery = (
-  params: TagsAndCategoriesRequest = {}
+  { enabled, ...params }: UseTagsAndCategoriesQueryParams = { enabled: false }
 ) =>
   useQuery({
     queryKey: [TAGS_AND_CATEGORIES_QUERY_KEY, ...Object.values(params)],
     queryFn: () => apiService.common.tagsAndCategories(params),
+    enabled: enabled,
   });

@@ -18,9 +18,12 @@ export const ItemModal: FC<ItemModalProps> = (props) => {
     useTagsAndCategoriesQuery({
       categories: { type: "ITEM" },
       tags: { type: "ITEM" },
+      enabled: props.isOpen || false,
     });
 
-  const { data: listsData, isLoading: isListsLoading } = useSimpleListsQuery();
+  const { data: listsData, isLoading: isListsLoading } = useSimpleListsQuery(
+    props.isOpen || false
+  );
 
   // TODO: create proper function
   // const createListHandler = useCallback(
