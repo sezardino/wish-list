@@ -18,11 +18,16 @@ export class ListBllModule extends AbstractBllModule {
         icon,
         tags: filteredTags,
         owner: {
-          connect: {
-            id: ownerId,
-          },
+          connect: { id: ownerId },
         },
       },
+    });
+  }
+
+  many(ownerId: string) {
+    return this.prismaService.list.findMany({
+      where: { ownerId },
+      include: { items: true },
     });
   }
 }

@@ -1,6 +1,6 @@
 import { g } from "garph";
 import { ItemGQL } from "../../entity";
-import { LinkGQL } from "../../entity/link";
+import { LinkInputGQL } from "../../entity/link";
 
 export const createItemMutationType = g
   .ref(ItemGQL)
@@ -11,6 +11,6 @@ export const createItemMutationType = g
     category: g.string().optional(),
     tags: g.string().optional().list().optional(),
     listId: g.id(),
-    links: g.ref(LinkGQL).list().optional(),
+    links: g.ref(LinkInputGQL).list().optional(),
   })
   .description("Create item");

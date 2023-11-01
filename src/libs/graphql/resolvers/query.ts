@@ -20,4 +20,10 @@ export const queryResolvers: GraphqlQueries = {
       ownerId: user.id,
     });
   },
+
+  lists: async (_, __, { user }) => {
+    if (!user) throw new Error("Unauthorized");
+
+    return await bllService.list.many(user.id);
+  },
 };
