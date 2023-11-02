@@ -1,9 +1,11 @@
+import { useCreateItemMutation } from "@/hooks/react-query/mutation/create-item";
 import { useSimpleListsQuery } from "@/hooks/react-query/query/simple-lists";
 import { useTagsAndCategoriesQuery } from "@/hooks/react-query/query/tags-and-categories";
 import { useTranslations } from "next-intl";
-import { type FC } from "react";
+import { useCallback, type FC } from "react";
 import { BaseModal, BaseModalProps } from "../base/BaseModal";
-import { ItemForm } from "../forms/ItemForm";
+import { LoadingOverlay } from "../base/LoadingOverlay";
+import { ItemForm, ItemFormValues } from "../forms/ItemForm";
 
 export type ItemModalProps = Omit<
   BaseModalProps,
@@ -11,61 +13,66 @@ export type ItemModalProps = Omit<
 > & {};
 
 export const ItemModal: FC<ItemModalProps> = (props) => {
+  const { onClose, ...rest } = props;
   const t = useTranslations("modals.list-create");
-  const toastsT = useTranslations("toasts");
 
-  const { data: tagsAndCategoriesData, isLoading: isTagsAndCategoriesLoading } =
-    useTagsAndCategoriesQuery({
-      categories: { type: "ITEM" },
-      tags: { type: "ITEM" },
-      enabled: props.isOpen || false,
-    });
+  const {
+    data: tagsAndCategoriesData,
+    isFetching: isTagsAndCategoriesLoading,
+  } = useTagsAndCategoriesQuery({
+    categories: { type: "ITEM" },
+    tags: { type: "ITEM" },
+    enabled: props.isOpen || false,
+  });
 
-  const { data: listsData, isLoading: isListsLoading } = useSimpleListsQuery(
+  const { data: listsData, isFetching: isListsLoading } = useSimpleListsQuery(
     props.isOpen || false
   );
 
-  // TODO: create proper function
-  // const createListHandler = useCallback(
-  //   async (values: ListFormValues) => {
-  //     try {
-  //       const response = await apiService.list.create({
-  //         ...values,
-  //         category: values.category?.[0],
-  //       });
+  const { mutateAsync: createItem, isPending: isCreateItemPending } =
+    useCreateItemMutation();
 
-  //       if (!response.createList) throw new Error();
+  const isLoading = isTagsAndCategoriesLoading || isListsLoading;
 
-  //       reactToastify({
-  //         type: "success",
-  //         message: toastsT("list-create.success"),
-  //       });
-  //       props.onClose();
-  //     } catch (error) {
-  //       console.log(error);
-  //       reactToastify({
-  //         type: "error",
-  //         message: toastsT("list-create.error"),
-  //       });
-  //     }
-  //   },
-  //   [props, toastsT]
-  // );
+  const createItemHandler = useCallback(
+    async (values: ItemFormValues) => {
+      try {
+        await createItem({
+          ...values,
+          category: values.category?.[0],
+        });
+
+        onClose();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [createItem, onClose]
+  );
 
   return (
     <BaseModal
-      {...props}
+      {...rest}
+      onClose={onClose}
       size="2xl"
       title={t("title")}
       description={t("description")}
-      className="py-4"
+      className="py-4 relative"
     >
-      <ItemForm
-        lists={listsData?.lists || []}
-        tags={tagsAndCategoriesData?.tags || []}
-        categories={tagsAndCategoriesData?.categories || []}
-        onFormSubmit={() => undefined}
-      />
+      {(isLoading || isCreateItemPending) && (
+        <LoadingOverlay
+          isInWrapper
+          skeletonSize={!isCreateItemPending ? "2xl" : undefined}
+        />
+      )}
+      {!isLoading && (
+        <ItemForm
+          lists={listsData?.lists || []}
+          tags={tagsAndCategoriesData?.tags || []}
+          categories={tagsAndCategoriesData?.categories || []}
+          onFormSubmit={createItemHandler}
+        />
+      )}
     </BaseModal>
   );
 };

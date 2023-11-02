@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { ControlledInput } from "../form-fields/ControlledInput";
-import { ControlledListbox } from "../form-fields/ControlledListbox";
+import { ControlledSelect } from "../form-fields/ControlledSelect";
 import { ControlledTextarea } from "../form-fields/ControlledTextarea";
 import { StringListbox } from "../form-fields/StringListbox";
 
@@ -19,7 +19,7 @@ export type ItemFormValues = {
   description: string;
   averagePrice: number;
   listId: string;
-  links: { name: string; url: string }[];
+  links: { name: string; href: string }[];
 };
 
 export interface ItemFormProps extends ComponentPropsWithoutRef<"form"> {
@@ -53,7 +53,7 @@ export const ItemForm: FC<ItemFormProps> = (props) => {
         category: z.array(z.string()).optional(),
         averagePrice: z.coerce.number().positive().optional(),
         description: z.string().optional(),
-        list: z.array(z.string().optional()),
+        listId: z.string().min(1),
       })
     ),
   });
@@ -111,14 +111,16 @@ export const ItemForm: FC<ItemFormProps> = (props) => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-3">
-        <ControlledListbox
+        <ControlledSelect
           control={control}
           name="listId"
-          items={lists.map((l) => ({ id: l.id, label: l.name }))}
+          items={lists.map((list) => ({
+            id: list.id,
+            label: list.name,
+          }))}
           label={t("list.label")}
           placeholder={t("list.placeholder")}
           description={t("list.description")}
-          noFound={t("list.no-found")}
         />
       </div>
 

@@ -34,6 +34,10 @@
     "list-create": {
       "success": "You have successfully created new list",
       "error": "List creation failed"
+    },
+    "item-create": {
+      "success": "You have successfully created new item",
+      "error": "Item creation failed"
     }
   },
   "layout": {

@@ -14,5 +14,6 @@ export const useTagsAndCategoriesQuery = (
   useQuery({
     queryKey: [TAGS_AND_CATEGORIES_QUERY_KEY, ...Object.values(params)],
     queryFn: () => apiService.common.tagsAndCategories(params),
+    refetchOnWindowFocus: false,
     enabled: enabled,
   });
