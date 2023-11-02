@@ -1,12 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@nextui-org/react";
+import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
+import { BaseButton } from "../base/BaseButton";
+import { BaseGrid } from "../base/BaseGrid";
+import { Typography } from "../base/Typography";
 import { ControlledInput } from "../form-fields/ControlledInput";
 import { ControlledSelect } from "../form-fields/ControlledSelect";
 import { ControlledTextarea } from "../form-fields/ControlledTextarea";
@@ -54,9 +57,24 @@ export const ItemForm: FC<ItemFormProps> = (props) => {
         averagePrice: z.coerce.number().positive().optional(),
         description: z.string().optional(),
         listId: z.string().min(1),
+        links: z
+          .array(
+            z.object({
+              name: z.string().min(1),
+              href: z.string().url(),
+            })
+          )
+          .optional(),
       })
     ),
   });
+
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control,
+      name: "links",
+    }
+  );
 
   const onSubmit = (values: ItemFormValues) => onFormSubmit(values);
 
@@ -130,6 +148,73 @@ export const ItemForm: FC<ItemFormProps> = (props) => {
         label={t("description.label")}
         placeholder={t("description.placeholder")}
       />
+      <BaseGrid gap={3}>
+        <h2>Links</h2>
+        {!!fields.length && (
+          <Accordion as="ul" variant="bordered">
+            {fields.map((field, index) => {
+              const title = watch(`links.${index}.name`);
+              const hasErrors =
+                !!formState.errors.links?.[index] ||
+                !!formState.errors.links?.[index];
+
+              return (
+                <AccordionItem
+                  key={field.id}
+                  as="li"
+                  title={title ? title : "empty"}
+                  subtitle={
+                    hasErrors ? (
+                      <Typography
+                        styling="xs"
+                        tag="span"
+                        className="text-red-500"
+                      >
+                        has errors
+                      </Typography>
+                    ) : undefined
+                  }
+                >
+                  <BaseGrid gap={2}>
+                    <ControlledInput
+                      label="Name"
+                      placeholder="amazon"
+                      control={control}
+                      name={`links.${index}.name`}
+                    />
+                    <ControlledInput
+                      label="Href"
+                      placeholder="https://amazon.com"
+                      control={control}
+                      name={`links.${index}.href`}
+                    />
+                    <BaseButton
+                      icon="HiTrash"
+                      color="danger"
+                      className="justify-self-center"
+                      onClick={() => remove(index)}
+                    />
+                  </BaseGrid>
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
+        )}
+        <div className="justify-self-center flex items-center flex-wrap gap-3">
+          <BaseButton
+            icon="HiPlusCircle"
+            color="warning"
+            onClick={() => append({ name: "", href: "" })}
+          />
+          {!!fields.length && (
+            <BaseButton
+              icon="HiTrash"
+              color="danger"
+              onClick={() => remove()}
+            />
+          )}
+        </div>
+      </BaseGrid>
 
       <div className="mt-2 flex flex-wrap gap-3 justify-between items-center">
         <Button color="danger">{t("cancel")}</Button>

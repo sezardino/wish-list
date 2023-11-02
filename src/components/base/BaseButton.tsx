@@ -20,7 +20,6 @@ export const BaseButton: FC<BaseButtonProps> = (props) => {
   const { href, to, leftIcon, rightIcon, icon, children, ...rest } = props;
 
   const as = to ? Link : href ? "a" : "button";
-  const inner = icon || children;
 
   return (
     <Button
@@ -33,7 +32,8 @@ export const BaseButton: FC<BaseButtonProps> = (props) => {
       isIconOnly={!!icon}
       radius="sm"
     >
-      {inner}
+      {children}
+      {icon && <Icon name={icon} />}
     </Button>
   );
 };
