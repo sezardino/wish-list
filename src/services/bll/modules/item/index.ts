@@ -17,6 +17,11 @@ export class ItemBllModule extends AbstractBllModule {
             id: listId,
           },
         },
+        links: {
+          createMany: {
+            data: links || [],
+          },
+        },
         owner: {
           connect: {
             id: ownerId,
