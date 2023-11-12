@@ -1,54 +1,42 @@
-import { useCreateItemMutation } from "@/hooks/react-query/mutation/create-item";
-import { useSimpleListsQuery } from "@/hooks/react-query/query/simple-lists";
-import { useTagsAndCategoriesQuery } from "@/hooks/react-query/query/tags-and-categories";
 import { useTranslations } from "next-intl";
-import { useCallback, type FC } from "react";
+import { type FC } from "react";
 import { BaseModal, BaseModalProps } from "../base/BaseModal";
 import { LoadingOverlay } from "../base/LoadingOverlay";
-import { ItemForm, ItemFormValues } from "../forms/ItemForm";
+import { ItemForm, ItemFormProps } from "../forms/ItemForm";
 
-export type ItemModalProps = Omit<
+type OmittedModalProps = Omit<
   BaseModalProps,
   "children" | "title" | "description" | "size"
-> & {};
+>;
+
+type PickedItemFormProps = Pick<
+  ItemFormProps,
+  "lists" | "tags" | "categories" | "onFormSubmit"
+>;
+
+type ComponentProps = {
+  canShowLoadingOverlay: boolean;
+  isDataFetching: boolean;
+  isItemCreating: boolean;
+};
+
+export type ItemModalProps = OmittedModalProps &
+  PickedItemFormProps &
+  ComponentProps;
 
 export const ItemModal: FC<ItemModalProps> = (props) => {
-  const { onClose, ...rest } = props;
-  const t = useTranslations("modals.list-create");
-
   const {
-    data: tagsAndCategoriesData,
-    isFetching: isTagsAndCategoriesLoading,
-  } = useTagsAndCategoriesQuery({
-    categories: { type: "ITEM" },
-    tags: { type: "ITEM" },
-    enabled: props.isOpen || false,
-  });
-
-  const { data: listsData, isFetching: isListsLoading } = useSimpleListsQuery(
-    props.isOpen || false
-  );
-
-  const { mutateAsync: createItem, isPending: isCreateItemPending } =
-    useCreateItemMutation();
-
-  const isLoading = isTagsAndCategoriesLoading || isListsLoading;
-
-  const createItemHandler = useCallback(
-    async (values: ItemFormValues) => {
-      try {
-        await createItem({
-          ...values,
-          category: values.category?.[0],
-        });
-
-        onClose();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [createItem, onClose]
-  );
+    categories,
+    lists,
+    onFormSubmit,
+    tags,
+    isItemCreating,
+    isDataFetching,
+    canShowLoadingOverlay,
+    onClose,
+    ...rest
+  } = props;
+  const t = useTranslations("modals.list-create");
 
   return (
     <BaseModal
@@ -59,18 +47,18 @@ export const ItemModal: FC<ItemModalProps> = (props) => {
       description={t("description")}
       className="py-4 relative"
     >
-      {(isLoading || isCreateItemPending) && (
+      {canShowLoadingOverlay && (
         <LoadingOverlay
           isInWrapper
-          skeletonSize={!isCreateItemPending ? "2xl" : undefined}
+          skeletonSize={!isItemCreating ? "2xl" : undefined}
         />
       )}
-      {!isLoading && (
+      {!isDataFetching && (
         <ItemForm
-          lists={listsData?.lists || []}
-          tags={tagsAndCategoriesData?.tags || []}
-          categories={tagsAndCategoriesData?.categories || []}
-          onFormSubmit={createItemHandler}
+          lists={lists}
+          tags={tags}
+          categories={categories}
+          onFormSubmit={onFormSubmit}
         />
       )}
     </BaseModal>

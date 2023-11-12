@@ -1,11 +1,16 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { BaseButton } from "../base/BaseButton";
 
-export type AddEntityWidgetProps = ComponentPropsWithoutRef<"div"> & {};
+export type AddEntityWidgetProps = ComponentPropsWithoutRef<"div"> & {
+  onAddItemClick: () => void;
+  onAddListClick: () => void;
+};
 
 export const AddEntityWidget: FC<AddEntityWidgetProps> = (props) => {
-  const { className, ...rest } = props;
+  const { onAddItemClick, onAddListClick, className, ...rest } = props;
+  const t = useTranslations("add-entity-widget");
 
   return (
     <div {...rest} className={className}>
@@ -14,9 +19,17 @@ export const AddEntityWidget: FC<AddEntityWidgetProps> = (props) => {
           <BaseButton icon="HiPlusCircle" />
         </PopoverTrigger>
         <PopoverContent>
-          <div className="px-1 py-2">
-            <BaseButton icon="HiInbox" />
-            <BaseButton icon="HiInbox" />
+          <div className="py-2 grid grid-cols-1 gap-3">
+            <BaseButton
+              icon="HiOutlineViewList"
+              onClick={onAddListClick}
+              aria-label={t("add-list")}
+            />
+            <BaseButton
+              icon="HiOutlinePuzzle"
+              onClick={onAddItemClick}
+              aria-label={t("add-item")}
+            />
           </div>
         </PopoverContent>
       </Popover>

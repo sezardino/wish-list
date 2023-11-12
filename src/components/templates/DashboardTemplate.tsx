@@ -2,8 +2,8 @@
 
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { BaseButton } from "../base/BaseButton";
-import { ItemModal } from "../modals/ItemModal";
-import { ListModal } from "../modals/ListModal";
+import { ItemModalWrapper } from "../wrappers/ItemModalWrapper";
+import { ListModalWrapper } from "../wrappers/ListModalWrapper";
 
 export type DashboardTemplateProps = ComponentPropsWithoutRef<"section"> & {};
 
@@ -22,11 +22,11 @@ export const DashboardTemplate: FC<DashboardTemplateProps> = (props) => {
           Create Item
         </BaseButton>
       </section>
-      <ListModal
+      <ListModalWrapper
         isOpen={isCreateListModalOpen}
         onClose={() => setIsCreateListModalOpen(false)}
       />
-      <ItemModal
+      <ItemModalWrapper
         isOpen={isCreateItemModalOpen}
         onClose={() => setIsCreateItemModalOpen(false)}
       />
