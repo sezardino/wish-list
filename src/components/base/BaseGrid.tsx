@@ -1,13 +1,27 @@
-import { HTMLAttributes, type FC } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+} from "react";
 import { twMerge } from "tailwind-merge";
 
-export type BaseGridProps = HTMLAttributes<HTMLElement> & {
-  tag?: "div" | "ul" | "ol" | "section" | "form";
-  col?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-  gap?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-};
+type BaseGridTags = Extract<
+  ElementType,
+  "div" | "ul" | "ol" | "section" | "form"
+>;
 
-export const BaseGrid: FC<BaseGridProps> = (props) => {
+export type BaseGridProps<Tag extends BaseGridTags> =
+  ComponentPropsWithoutRef<Tag> & {
+    tag?: Tag;
+    col?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+    gap?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  };
+
+const BaseGridComponent: ForwardRefRenderFunction<
+  HTMLDivElement,
+  BaseGridProps<BaseGridTags>
+> = (props, ref) => {
   const {
     tag: Tag = "div",
     col = 1,
@@ -49,6 +63,8 @@ export const BaseGrid: FC<BaseGridProps> = (props) => {
 
   return (
     <Tag
+      // @ts-ignore
+      ref={ref}
       {...rest}
       className={twMerge("grid", columns[col], gaps[gap], className)}
     >
@@ -56,3 +72,5 @@ export const BaseGrid: FC<BaseGridProps> = (props) => {
     </Tag>
   );
 };
+
+export const BaseGrid = forwardRef(BaseGridComponent);

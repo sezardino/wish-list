@@ -3,6 +3,7 @@
 import { ProjectPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
+import { AddEntityWidget } from "@/components/layout/AddEntityWidget";
 import { AppNavbar } from "@/components/layout/AppNavbar";
 import { AppSidebar, AppSidebarItem } from "@/components/layout/AppSidebar";
 import { useSession } from "next-auth/react";
@@ -37,7 +38,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       <AppNavbar
         // TODO: add image to profile
         avatarSrc={undefined}
-        login={session.data.user.login}
+        login={session.data.user.email}
         className={styles.navbar}
       />
 
@@ -50,6 +51,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
         brandHref={ProjectPageUrls.home}
       />
       <main className={twMerge(styles.content, "p-4 h-auto")}>{children}</main>
+      <AddEntityWidget className="fixed bottom-7 right-7" />
     </div>
   );
 };

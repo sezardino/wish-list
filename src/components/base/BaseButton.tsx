@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { ForwardRefRenderFunction, forwardRef } from "react";
 
 import { ProjectPageUrls } from "@/const/url";
 import { Button, ButtonProps } from "@nextui-org/react";
@@ -16,13 +16,17 @@ export type BaseButtonProps = Omit<
   to?: ProjectPageUrls;
 };
 
-export const BaseButton: FC<BaseButtonProps> = (props) => {
+const BaseButtonComponent: ForwardRefRenderFunction<
+  HTMLButtonElement,
+  BaseButtonProps
+> = (props, ref) => {
   const { href, to, leftIcon, rightIcon, icon, children, ...rest } = props;
 
   const as = to ? Link : href ? "a" : "button";
 
   return (
     <Button
+      ref={ref}
       type={as === "button" ? "button" : undefined}
       {...rest}
       as={as}
@@ -30,10 +34,12 @@ export const BaseButton: FC<BaseButtonProps> = (props) => {
       startContent={leftIcon ? <Icon name={leftIcon} /> : null}
       endContent={rightIcon ? <Icon name={rightIcon} /> : null}
       isIconOnly={!!icon}
-      radius="sm"
+      radius={icon ? "full" : "sm"}
     >
       {children}
       {icon && <Icon name={icon} />}
     </Button>
   );
 };
+
+export const BaseButton = forwardRef(BaseButtonComponent);
