@@ -82,8 +82,7 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
   const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
     if (type === "registration") {
       await validateLoginHandler(data.login);
-
-      if (formState.errors) return;
+      if (Object.keys(formState.errors).length) return;
     }
 
     onFormSubmit(data);

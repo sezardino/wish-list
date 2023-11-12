@@ -21,6 +21,7 @@ const RegistrationPage = () => {
         if (!response.registration) return;
 
         router.replace(ProjectPageUrls.login);
+        reactToastify({ type: "error", message: t("registration.success") });
       } catch (error) {
         reactToastify({ type: "error", message: t("registration.error") });
       }

@@ -38,7 +38,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
       <AppNavbar
         // TODO: add image to profile
         avatarSrc={undefined}
-        login={session.data.user.email}
+        login={session.data.user.login}
         className={styles.navbar}
       />
 

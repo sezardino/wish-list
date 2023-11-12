@@ -34,7 +34,7 @@ export const AppNavbar: FC<AppNavbarProps> = (props) => {
               <Avatar
                 src={avatarSrc}
                 radius="full"
-                name={login.slice(0, 1).toUpperCase()}
+                name={login?.slice(0, 1).toUpperCase()}
                 className="text-xl"
               />
             </button>
