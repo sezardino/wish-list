@@ -1,6 +1,6 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
-import { type ComponentPropsWithoutRef, type FC } from "react";
+import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { BaseButton } from "../base/BaseButton";
 
 export type AddEntityWidgetProps = ComponentPropsWithoutRef<"div"> & {
@@ -11,23 +11,37 @@ export type AddEntityWidgetProps = ComponentPropsWithoutRef<"div"> & {
 export const AddEntityWidget: FC<AddEntityWidgetProps> = (props) => {
   const { onAddItemClick, onAddListClick, className, ...rest } = props;
   const t = useTranslations("add-entity-widget");
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const buttonHandler = (type: "list" | "item") => {
+    if (type === "list") {
+      onAddListClick();
+    } else {
+      onAddItemClick();
+    }
+
+    setIsPopoverOpen(false);
+  };
 
   return (
     <div {...rest} className={className}>
-      <Popover placement="top">
+      <Popover isOpen={isPopoverOpen} placement="top">
         <PopoverTrigger>
-          <BaseButton icon="HiPlusCircle" />
+          <BaseButton
+            icon="HiPlusCircle"
+            onClick={() => setIsPopoverOpen((prev) => !prev)}
+          />
         </PopoverTrigger>
         <PopoverContent>
           <div className="py-2 grid grid-cols-1 gap-3">
             <BaseButton
               icon="HiOutlineViewList"
-              onClick={onAddListClick}
+              onClick={() => buttonHandler("list")}
               aria-label={t("add-list")}
             />
             <BaseButton
               icon="HiOutlinePuzzle"
-              onClick={onAddItemClick}
+              onClick={() => buttonHandler("item")}
               aria-label={t("add-item")}
             />
           </div>
