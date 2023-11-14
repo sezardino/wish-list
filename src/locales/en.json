@@ -169,5 +169,14 @@
         "placeholder": "awesome, cool, nice"
       }
     }
+  },
+  "components": {
+    "list-card": {
+      "category": "Category: ",
+      "tags": "Tags: ",
+      "no-description": "No description",
+      "count": "{value} item(s)",
+      "more": "More"
+    }
   }
 }

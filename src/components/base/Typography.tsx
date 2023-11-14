@@ -34,7 +34,6 @@ type TypographyWeight = "medium" | "regular" | "semi" | "bold";
 export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
   styling?: TypographySize;
   tag: TypographyTag;
-  children?: string;
   weight?: TypographyWeight;
   isUppercase?: boolean;
   isUnderlined?: boolean;
@@ -53,7 +52,7 @@ export const ellipsisText = (text: string, limit: number) => {
 export const Typography: FC<TypographyProps> = (props) => {
   const {
     tag: Tag,
-    children: text,
+    children,
     styling: size = "base",
     weight = "regular",
     isCentered,
@@ -92,7 +91,6 @@ export const Typography: FC<TypographyProps> = (props) => {
     <Tag
       {...rest}
       className={twMerge(
-        `text-gray-900`,
         sizeMap[size],
         weightMap[weight],
         isCentered && "text-center",
@@ -102,9 +100,13 @@ export const Typography: FC<TypographyProps> = (props) => {
         ellipsisLength && "line-clamp-1 overflow-hidden",
         className
       )}
-      title={ellipsisLength && text ? text : undefined}
+      title={
+        ellipsisLength && typeof children === "string" ? children : undefined
+      }
     >
-      {ellipsisLength && text ? ellipsisText(text, ellipsisLength) : text}
+      {ellipsisLength && typeof children === "string"
+        ? ellipsisText(children, ellipsisLength)
+        : children}
     </Tag>
   );
 };
