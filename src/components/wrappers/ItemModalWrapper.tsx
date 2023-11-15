@@ -27,8 +27,7 @@ export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
     data: tagsAndCategoriesData,
     isFetching: isTagsAndCategoriesLoading,
   } = useTagsAndCategoriesQuery({
-    categories: { type: "ITEM" },
-    tags: { type: "ITEM" },
+    type: "ITEM",
     enabled: isOpen || false,
   });
 

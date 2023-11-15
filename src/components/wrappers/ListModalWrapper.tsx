@@ -19,8 +19,7 @@ export const ListModalWrapper: FC<ListModalWrapperProps> = (props) => {
     data: tagsAndCategoriesData,
     isFetching: isTagsAndCategoriesLoading,
   } = useTagsAndCategoriesQuery({
-    tags: { type: "LIST" },
-    categories: { type: "LIST" },
+    type: "LIST",
     enabled: isOpen || false,
   });
 

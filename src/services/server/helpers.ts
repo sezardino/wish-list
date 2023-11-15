@@ -9,7 +9,7 @@ type HelperProps<Schema extends ZodSchema> = {
 };
 
 export abstract class AbstractServerModule {
-  formatParams(params: IterableIterator<[string, string]>) {
+  protected formatParams(params: IterableIterator<[string, string]>) {
     let formattedParams: Record<string, any> = {};
 
     Array.from(params).forEach(([k, v]) => {
@@ -19,11 +19,11 @@ export abstract class AbstractServerModule {
     return formattedParams;
   }
 
-  getNextResponse<T extends object>(response: T, status: number) {
+  protected getNextResponse<T extends object>(response: T, status: number) {
     return NextResponse.json({ ...response }, { status });
   }
 
-  validateParams<Schema extends ZodSchema>(
+  protected validateParams<Schema extends ZodSchema>(
     data: any,
     schema: Schema
   ): NextResponse<{ message: string; errors: ZodIssue[] }> | Schema["_output"] {

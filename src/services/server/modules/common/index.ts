@@ -1,8 +1,8 @@
 import { BllService } from "@/services/bll";
-import { AbstractServerModule } from "../../helpers";
 import { NextRequest, NextResponse } from "next/server";
-import { TagsCategoriesResponse, tagsCategoriesRequestSchema } from "..";
 import { BackendErrorResponse } from "../..";
+import { AbstractServerModule } from "../../helpers";
+import { TagsCategoriesResponse, tagsCategoriesRequestSchema } from "./schema";
 
 export * from "./schema";
 
