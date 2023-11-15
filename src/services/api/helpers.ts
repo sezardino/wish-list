@@ -1,5 +1,14 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { GraphQLClient, Variables } from "graphql-request";
+import { z, Schema } from "zod";
+import { BackendErrorResponse } from "../server";
+
+type FetchProps<T extends z.Schema> = {
+  endpoint: string;
+  config?: AxiosRequestConfig;
+  schema: T;
+};
+
 export abstract class AbstractApiModule {
   protected restUrl: string;
   protected gqlUrl: string;
@@ -16,14 +25,17 @@ export abstract class AbstractApiModule {
     return axios<Response>(`${this.restUrl}/${endpoint}`, config);
   }
 
-  async fetch<Response, Error = object>(
-    endpoint: string,
-    config: Omit<AxiosRequestConfig, "url"> = {}
-  ) {
-    return axios<AxiosError<Error>, AxiosResponse<Response>>(
-      `${this.restUrl}/${endpoint}`,
-      { ...config }
-    ).then((res) => res.data);
+  protected async fetch<T extends z.Schema>(
+    props: FetchProps<T>
+  ): Promise<z.infer<T>> {
+    const { endpoint, config, schema } = props;
+
+    return axios<
+      AxiosError<BackendErrorResponse>,
+      AxiosResponse<z.infer<Schema>>
+    >(`${this.restUrl}/${endpoint}`, { ...config }).then((res) =>
+      schema.parse(res.data)
+    );
   }
 
   protected async gqlFetcher<R, V extends Variables>(
