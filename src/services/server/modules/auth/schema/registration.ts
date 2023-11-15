@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const registrationSchema = z.object({
+export const registrationRequestSchema = z.object({
   login: z
     .string()
     .min(1, "backend-errors.validation.registration.login.min")
@@ -10,4 +10,9 @@ export const registrationSchema = z.object({
     .min(6, "backend-errors.validation.registration.password"),
 });
 
-export type RegistrationDto = z.infer<typeof registrationSchema>;
+export const registrationResponseSchema = z.object({
+  success: z.boolean(),
+});
+
+export type RegistrationRequest = z.infer<typeof registrationRequestSchema>;
+export type RegistrationResponse = z.infer<typeof registrationResponseSchema>;

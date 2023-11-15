@@ -1,7 +1,7 @@
 import { BllService } from "@/services/bll";
 import { NextRequest } from "next/server";
+import { isLoginAvailableRequestSchema, registrationRequestSchema } from "..";
 import { AbstractServerModule } from "../../helpers";
-import { isLoginAvailableSchema, registrationSchema } from "./schema";
 
 export * from "./schema";
 
@@ -14,7 +14,7 @@ export class AuthServerModule extends AbstractServerModule {
     const body = await req.json();
     const { response, dto } = await this.handlerHelper({
       data: body,
-      schema: registrationSchema,
+      schema: registrationRequestSchema,
       skipAuth: true,
     });
 
@@ -34,7 +34,7 @@ export class AuthServerModule extends AbstractServerModule {
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: isLoginAvailableSchema,
+      schema: isLoginAvailableRequestSchema,
       skipAuth: true,
     });
 

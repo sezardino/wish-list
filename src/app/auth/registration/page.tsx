@@ -6,9 +6,9 @@ import { ProjectPageUrls } from "@/const/url";
 import { reactToastify } from "@/libs/react-toastify";
 import { apiService } from "@/services/api";
 import {
-  IsLoginAvailableDto,
-  RegistrationDto,
-} from "@/services/server/modules/auth/schema";
+  RegistrationRequest,
+  IsLoginAvailableRequest,
+} from "@/services/server";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ const useRegistrationMutation = () => {
   const t = useTranslations("toasts");
 
   return useMutation({
-    mutationFn: (dto: RegistrationDto) => apiService.auth.registration(dto),
+    mutationFn: (dto: RegistrationRequest) => apiService.auth.registration(dto),
     onSuccess: () =>
       reactToastify({ type: "success", message: t("registration.success") }),
     onError: () =>
@@ -28,7 +28,7 @@ const useRegistrationMutation = () => {
 
 const useIsLoginAvailableMutation = () => {
   return useMutation({
-    mutationFn: (dto: IsLoginAvailableDto) =>
+    mutationFn: (dto: IsLoginAvailableRequest) =>
       apiService.auth.isLoginAvailable(dto),
   });
 };
