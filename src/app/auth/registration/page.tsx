@@ -5,35 +5,62 @@ import { AuthTemplate } from "@/components/templates/AuthTemplate";
 import { ProjectPageUrls } from "@/const/url";
 import { reactToastify } from "@/libs/react-toastify";
 import { apiService } from "@/services/api";
+import {
+  IsLoginAvailableDto,
+  RegistrationDto,
+} from "@/services/server/modules/auth/schema";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
+const useRegistrationMutation = () => {
+  const t = useTranslations("toasts");
+
+  return useMutation({
+    mutationFn: (dto: RegistrationDto) => apiService.auth.registration(dto),
+    onSuccess: () =>
+      reactToastify({ type: "success", message: t("registration.success") }),
+    onError: () =>
+      reactToastify({ type: "error", message: t("registration.error") }),
+  });
+};
+
+const useIsLoginAvailableMutation = () => {
+  return useMutation({
+    mutationFn: (dto: IsLoginAvailableDto) =>
+      apiService.auth.isLoginAvailable(dto),
+  });
+};
+
 const RegistrationPage = () => {
   const router = useRouter();
-  const t = useTranslations("toasts");
+  const { mutateAsync: registration, isPending: isRegistrationPending } =
+    useRegistrationMutation();
+  const {
+    mutateAsync: isLoginAvailableHandler,
+    isPending: isLoginAvailablePending,
+  } = useIsLoginAvailableMutation();
 
   const registrationHandler = useCallback(
     async (values: AuthFormValues) => {
       try {
-        const response = await apiService.auth.registration(values);
-
-        if (!response.registration) return;
+        await registration(values);
 
         router.replace(ProjectPageUrls.login);
-        reactToastify({ type: "success", message: t("registration.success") });
-      } catch (error) {
-        reactToastify({ type: "error", message: t("registration.error") });
-      }
+      } catch (error) {}
     },
-    [router, t]
+    [router, registration]
   );
 
-  const checkIfLoginAvailable = async (login: string) => {
-    const response = await apiService.auth.isLoginAvailable({ login });
+  const checkIfLoginAvailable = useCallback(
+    async (login: string) => {
+      const response = await isLoginAvailableHandler({ login });
 
-    return response.isLoginAvailable;
-  };
+      return response.available;
+    },
+    [isLoginAvailableHandler]
+  );
 
   return (
     <AuthTemplate

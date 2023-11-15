@@ -1,25 +1,21 @@
 import {
-  MutationArguments,
-  MutationReturn,
-  QueryArguments,
-  QueryReturn,
-} from "@/libs/graphql";
+  IsLoginAvailableDto,
+  RegistrationDto,
+} from "@/services/server/modules/auth/schema";
 import { AbstractApiModule } from "../../helpers";
-import { isLoginAvailableQuery } from "./queries/is-login-available";
-import { registrationQuery } from "./queries/registration";
 
 export class AuthApiModule extends AbstractApiModule {
-  async registration(dto: MutationArguments["registration"]) {
-    return await this.gqlFetcher<
-      Pick<MutationReturn, "registration">,
-      MutationArguments["registration"]
-    >(registrationQuery, dto);
+  async registration(data: RegistrationDto) {
+    return await this.fetch<{ status: boolean }>("auth/registration", {
+      data,
+      method: "POST",
+    });
   }
 
-  async isLoginAvailable(dto: QueryArguments["isLoginAvailable"]) {
-    return await this.gqlFetcher<
-      Pick<QueryReturn, "isLoginAvailable">,
-      QueryArguments["isLoginAvailable"]
-    >(isLoginAvailableQuery, dto);
+  async isLoginAvailable(params: IsLoginAvailableDto) {
+    return await this.fetch<{ available: boolean }>(
+      "users/is-login-available",
+      { params }
+    );
   }
 }

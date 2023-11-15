@@ -6,7 +6,7 @@ import { ItemBllModule } from "./modules/item";
 import { ListBllModule } from "./modules/list";
 import { UserBllModule } from "./modules/user";
 
-class BllService {
+export class BllService {
   user: UserBllModule;
   auth: AuthBllModule;
   item: ItemBllModule;

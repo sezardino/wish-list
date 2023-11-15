@@ -1,5 +1,5 @@
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { GraphQLClient, Variables } from "graphql-request";
-
 export abstract class AbstractApiModule {
   protected restUrl: string;
   protected gqlUrl: string;
@@ -9,18 +9,21 @@ export abstract class AbstractApiModule {
     this.gqlUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/graphql`;
   }
 
-  protected async restFetcher<Response>(endpoint: string, init?: RequestInit) {
-    try {
-      const res = await fetch(`${this.restUrl}/${endpoint}`, init);
+  protected async restFetcher<Response>(
+    endpoint: string,
+    config?: AxiosRequestConfig
+  ) {
+    return axios<Response>(`${this.restUrl}/${endpoint}`, config);
+  }
 
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      return (await res.json()) as Response;
-    } catch (error) {
-      return error;
-    }
+  async fetch<Response, Error = object>(
+    endpoint: string,
+    config: Omit<AxiosRequestConfig, "url"> = {}
+  ) {
+    return axios<AxiosError<Error>, AxiosResponse<Response>>(
+      `${this.restUrl}/${endpoint}`,
+      { ...config }
+    ).then((res) => res.data);
   }
 
   protected async gqlFetcher<R, V extends Variables>(
