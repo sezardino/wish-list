@@ -3,6 +3,8 @@ import { NextRequest } from "next/server";
 import { AbstractServerModule } from "../../helpers";
 import { isLoginAvailableSchema, registrationSchema } from "./schema";
 
+export * from "./schema";
+
 export class AuthServerModule extends AbstractServerModule {
   constructor(private readonly bllService: BllService) {
     super();
