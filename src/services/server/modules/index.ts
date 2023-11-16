@@ -1,5 +1,5 @@
 export * from "./auth";
 export * from "./categories";
-export * from "./item";
-export * from "./list";
+export * from "./items";
+export * from "./lists";
 export * from "./tags";

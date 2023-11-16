@@ -2,9 +2,9 @@ import { BllService } from "@/services/bll";
 import { NextRequest, NextResponse } from "next/server";
 import { BackendErrorResponse } from "../..";
 import { AbstractServerModule } from "../../helpers";
-import { createItemRequestSchema } from "./schema";
+import { createListRequestSchema } from "./schema";
 
-export class ItemServerModule extends AbstractServerModule {
+export class ListsServerModule extends AbstractServerModule {
   constructor(private readonly bllService: BllService) {
     super();
   }
@@ -16,13 +16,13 @@ export class ItemServerModule extends AbstractServerModule {
 
     const { response, dto, session } = await this.handlerHelper({
       data: body,
-      schema: createItemRequestSchema,
+      schema: createListRequestSchema,
     });
 
     if (response) return response;
 
     try {
-      const createListResponse = await this.bllService.items.create({
+      const createListResponse = await this.bllService.lists.create({
         ownerId: session?.user.id!,
         ...dto!,
       });

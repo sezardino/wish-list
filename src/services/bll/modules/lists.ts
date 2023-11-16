@@ -1,4 +1,4 @@
-import { CreateListRequest } from "@/services/server/modules/list/schema";
+import { CreateListRequest } from "@/services/server/modules/lists/schema";
 import { AbstractBllModule } from "../helpers";
 
 export class ListsBllModule extends AbstractBllModule {

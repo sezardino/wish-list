@@ -1,10 +1,10 @@
 import {
   CreateListRequest,
   createListResponseSchema,
-} from "@/services/server/modules/list/schema";
+} from "@/services/server/modules/lists/schema";
 import { AbstractApiModule } from "../helpers";
 
-export class ListApiModule extends AbstractApiModule {
+export class ListsApiModule extends AbstractApiModule {
   async create(data: CreateListRequest) {
     return await this.fetch({
       endpoint: "/lists",

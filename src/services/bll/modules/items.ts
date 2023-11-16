@@ -1,4 +1,4 @@
-import { CreateItemRequest } from "@/services/server/modules/item/schema";
+import { CreateItemRequest } from "@/services/server/modules/items/schema";
 import { AbstractBllModule } from "../helpers";
 
 export class ItemsBllModule extends AbstractBllModule {

@@ -2,8 +2,8 @@ import { bllService } from "../bll";
 import {
   AuthServerModule,
   CategoriesServerModule,
-  ItemServerModule,
-  ListServerModule,
+  ItemsServerModule,
+  ListsServerModule,
   TagsServerModule,
 } from "./modules";
 
@@ -14,15 +14,15 @@ class ServerService {
   auth: AuthServerModule;
   categories: CategoriesServerModule;
   tags: TagsServerModule;
-  item: ItemServerModule;
-  list: ListServerModule;
+  items: ItemsServerModule;
+  lists: ListsServerModule;
 
   constructor() {
     this.auth = new AuthServerModule(bllService);
     this.categories = new CategoriesServerModule(bllService);
     this.tags = new TagsServerModule(bllService);
-    this.item = new ItemServerModule(bllService);
-    this.list = new ListServerModule(bllService);
+    this.items = new ItemsServerModule(bllService);
+    this.lists = new ListsServerModule(bllService);
   }
 }
 
