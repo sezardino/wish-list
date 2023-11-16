@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TagCategoryType } from "../../tags";
+import { TagCategoryType } from "../../tags/schema";
 
 export const categoriesListRequestSchema = z.object({
   type: z.enum([TagCategoryType.LIST, TagCategoryType.ITEM]).optional(),

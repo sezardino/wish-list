@@ -1,4 +1,7 @@
-import { TagsListRequest, tagsListResponseSchema } from "@/services/server";
+import {
+  TagsListRequest,
+  tagsListResponseSchema,
+} from "@/services/server/modules/tags/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class TagsApiModule extends AbstractApiModule {

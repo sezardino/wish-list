@@ -1,8 +1,7 @@
 import { User } from "@prisma/client";
-import { AbstractBllModule } from "../../helpers";
-import { UserWithListAndWithoutPassword } from "./type";
+import { AbstractBllModule } from "../helpers";
 
-export class UserBllModule extends AbstractBllModule {
+export class UsersBllModule extends AbstractBllModule {
   async isLoginAvailable(login: string): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({
       where: { login },
@@ -29,7 +28,7 @@ export class UserBllModule extends AbstractBllModule {
   async createUser(
     login: string,
     password: string
-  ): Promise<UserWithListAndWithoutPassword> {
+  ): Promise<Omit<User, "password">> {
     return await this.prismaService.user.create({
       data: { login, password },
       select: { id: true, login: true, lists: true },

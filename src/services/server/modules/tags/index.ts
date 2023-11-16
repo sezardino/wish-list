@@ -4,8 +4,6 @@ import { BackendErrorResponse } from "../..";
 import { AbstractServerModule } from "../../helpers";
 import { TagsListResponse, tagsListRequestSchema } from "./schema";
 
-export * from "./schema";
-
 export class TagsServerModule extends AbstractServerModule {
   constructor(private readonly bllService: BllService) {
     super();
@@ -24,7 +22,7 @@ export class TagsServerModule extends AbstractServerModule {
     if (response) return response;
 
     try {
-      const tagsResponse = await this.bllService.common.tags({
+      const tagsResponse = await this.bllService.tags.list({
         type: dto!.type!,
         ownerId: session?.user.id!,
       });

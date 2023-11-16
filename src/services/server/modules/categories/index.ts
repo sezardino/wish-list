@@ -1,10 +1,8 @@
 import { BllService } from "@/services/bll";
 import { NextRequest, NextResponse } from "next/server";
-import { CategoriesListResponse, categoriesListRequestSchema } from ".";
 import { BackendErrorResponse } from "../..";
 import { AbstractServerModule } from "../../helpers";
-
-export * from "./schema";
+import { CategoriesListResponse, categoriesListRequestSchema } from "./schema";
 
 export class CategoriesServerModule extends AbstractServerModule {
   constructor(private readonly bllService: BllService) {
@@ -24,7 +22,7 @@ export class CategoriesServerModule extends AbstractServerModule {
     if (response) return response;
 
     try {
-      const categoriesResponse = await this.bllService.common.categories({
+      const categoriesResponse = await this.bllService.categories.list({
         type: dto!.type!,
         ownerId: session?.user.id!,
       });

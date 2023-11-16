@@ -1,9 +1,10 @@
 import { BllService } from "@/services/bll";
 import { NextRequest } from "next/server";
-import { isLoginAvailableRequestSchema, registrationRequestSchema } from "..";
 import { AbstractServerModule } from "../../helpers";
-
-export * from "./schema";
+import {
+  registrationRequestSchema,
+  isLoginAvailableRequestSchema,
+} from "./schema";
 
 export class AuthServerModule extends AbstractServerModule {
   constructor(private readonly bllService: BllService) {
@@ -41,7 +42,7 @@ export class AuthServerModule extends AbstractServerModule {
     if (response) return response;
 
     try {
-      const bllResponse = await this.bllService.user.isLoginAvailable(
+      const bllResponse = await this.bllService.users.isLoginAvailable(
         dto!.login!
       );
 

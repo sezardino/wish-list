@@ -1,18 +1,21 @@
 import { passwordService } from "@/services/password";
 import { PrismaClient, User } from "@prisma/client";
-import { AbstractBllModule } from "../../helpers";
-import { UserBllModule } from "../user";
-import { LoginDto, RegistrationDto } from "./dto";
+import { UsersBllModule } from ".";
+import { AbstractBllModule } from "../helpers";
+import {
+  RegistrationRequest,
+  LoginRequest,
+} from "@/services/server/modules/auth/schema";
 
 export class AuthBllModule extends AbstractBllModule {
   constructor(
     prisma: PrismaClient,
-    private readonly userModule: UserBllModule
+    private readonly userModule: UsersBllModule
   ) {
     super(prisma);
   }
 
-  async registration(dto: RegistrationDto): Promise<boolean> {
+  async registration(dto: RegistrationRequest): Promise<boolean> {
     const { login, password } = dto;
 
     const isLoginAvailable = await this.userModule.isLoginAvailable(login);
@@ -26,7 +29,7 @@ export class AuthBllModule extends AbstractBllModule {
     return !!newUser;
   }
 
-  async login(dto: LoginDto): Promise<Pick<User, "id" | "login">> {
+  async login(dto: LoginRequest): Promise<Pick<User, "id" | "login">> {
     const { login, password } = dto;
 
     const user = await this.userModule.findByLogin(login);

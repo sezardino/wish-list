@@ -8,7 +8,7 @@ import { apiService } from "@/services/api";
 import {
   RegistrationRequest,
   IsLoginAvailableRequest,
-} from "@/services/server";
+} from "@/services/server/modules/auth/schema";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";

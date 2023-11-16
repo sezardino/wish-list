@@ -1,24 +1,27 @@
 import { prisma } from "@/libs/prisma";
 import { PrismaClient } from "@prisma/client";
+import { UsersBllModule } from "./modules";
 import { AuthBllModule } from "./modules/auth";
-import { CommonBllModule } from "./modules/common";
-import { ItemBllModule } from "./modules/item";
-import { ListBllModule } from "./modules/list";
-import { UserBllModule } from "./modules/user";
+import { CategoriesBllModule } from "./modules/categories";
+import { ItemsBllModule } from "./modules/items";
+import { ListsBllModule } from "./modules/lists";
+import { TagsBllModule } from "./modules/tags";
 
 export class BllService {
-  user: UserBllModule;
+  users: UsersBllModule;
   auth: AuthBllModule;
-  item: ItemBllModule;
-  list: ListBllModule;
-  common: CommonBllModule;
+  items: ItemsBllModule;
+  lists: ListsBllModule;
+  categories: CategoriesBllModule;
+  tags: TagsBllModule;
 
   constructor(private readonly prisma: PrismaClient) {
-    this.user = new UserBllModule(prisma);
-    this.auth = new AuthBllModule(prisma, this.user);
-    this.item = new ItemBllModule(prisma);
-    this.list = new ListBllModule(prisma);
-    this.common = new CommonBllModule(prisma);
+    this.users = new UsersBllModule(prisma);
+    this.auth = new AuthBllModule(prisma, this.users);
+    this.items = new ItemsBllModule(prisma);
+    this.lists = new ListsBllModule(prisma);
+    this.categories = new CategoriesBllModule(prisma);
+    this.tags = new TagsBllModule(prisma);
   }
 }
 

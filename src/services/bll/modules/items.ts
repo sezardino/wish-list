@@ -1,8 +1,8 @@
-import { AbstractBllModule } from "../../helpers";
-import { CreateItemDto } from "./dto";
+import { CreateItemRequest } from "@/services/server/modules/item/schema";
+import { AbstractBllModule } from "../helpers";
 
-export class ItemBllModule extends AbstractBllModule {
-  create(dto: CreateItemDto) {
+export class ItemsBllModule extends AbstractBllModule {
+  create(dto: CreateItemRequest & { ownerId: string }) {
     const { links, listId, averagePrice, description, ownerId, tags, ...rest } =
       dto;
 

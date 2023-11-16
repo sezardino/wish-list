@@ -1,7 +1,7 @@
 import {
   CategoriesListRequest,
   categoriesListResponseSchema,
-} from "@/services/server";
+} from "@/services/server/modules/categories/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class CategoriesApiModule extends AbstractApiModule {

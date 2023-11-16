@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { TagsListRequest } from "@/services/server";
+import { TagsListRequest } from "@/services/server/modules/tags/schema";
 import { useQuery } from "@tanstack/react-query";
 
 export const TAGS_LIST_QUERY_KEY = "tags-list";

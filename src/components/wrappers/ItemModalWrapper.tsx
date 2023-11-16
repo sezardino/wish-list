@@ -67,7 +67,7 @@ export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
       isItemCreating={isCreateItemPending}
       categories={categoriesData?.categories || []}
       tags={tagsData?.tags || []}
-      lists={listsData?.lists || []}
+      lists={[]}
       onFormSubmit={createItemHandler}
     />
   );

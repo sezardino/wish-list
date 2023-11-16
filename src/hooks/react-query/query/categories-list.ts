@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CategoriesListRequest } from "@/services/server";
+import { CategoriesListRequest } from "@/services/server/modules/categories/schema";
 import { useQuery } from "@tanstack/react-query";
 
 export const CATEGORIES_LIST_QUERY_KEY = "tags-and-categories";
