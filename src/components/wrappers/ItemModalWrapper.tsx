@@ -1,8 +1,9 @@
 import { useCallback, type FC } from "react";
 
 import { useCreateItemMutation } from "@/hooks/react-query/mutation/create-item";
+import { useCategoriesListQuery } from "@/hooks/react-query/query/categories-list";
 import { useSimpleListsQuery } from "@/hooks/react-query/query/simple-lists";
-import { useTagsAndCategoriesQuery } from "@/hooks/react-query/query/tags-and-categories";
+import { useTagsListQuery } from "@/hooks/react-query/query/tags-list";
 import { ItemFormValues } from "../forms/ItemForm";
 import { ItemModal, ItemModalProps } from "../modals/ItemModal";
 
@@ -23,13 +24,15 @@ export type ItemModalWrapperProps = OmittedModalProps;
 export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
   const { onClose, isOpen } = props;
 
-  const {
-    data: tagsAndCategoriesData,
-    isFetching: isTagsAndCategoriesLoading,
-  } = useTagsAndCategoriesQuery({
+  const { data: tagsData, isFetching: isTagsLoading } = useTagsListQuery({
     type: "ITEM",
     enabled: isOpen || false,
   });
+  const { data: categoriesData, isFetching: isCategoriesLoading } =
+    useCategoriesListQuery({
+      type: "ITEM",
+      enabled: isOpen || false,
+    });
 
   const { data: listsData, isFetching: isListsLoading } = useSimpleListsQuery(
     isOpen || false
@@ -38,7 +41,7 @@ export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
   const { mutateAsync: createItem, isPending: isCreateItemPending } =
     useCreateItemMutation();
 
-  const isLoading = isTagsAndCategoriesLoading || isListsLoading;
+  const isLoading = isTagsLoading || isCategoriesLoading || isListsLoading;
 
   const createItemHandler = useCallback(
     async (values: ItemFormValues) => {
@@ -62,8 +65,8 @@ export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
       canShowLoadingOverlay={isLoading || isCreateItemPending}
       isDataFetching={isLoading}
       isItemCreating={isCreateItemPending}
-      categories={tagsAndCategoriesData?.categories || []}
-      tags={tagsAndCategoriesData?.tags || []}
+      categories={categoriesData?.categories || []}
+      tags={tagsData?.tags || []}
       lists={listsData?.lists || []}
       onFormSubmit={createItemHandler}
     />

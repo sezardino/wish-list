@@ -4,7 +4,7 @@ import {
   isLoginAvailableResponseSchema,
   registrationResponseSchema,
 } from "@/services/server/modules/auth/schema";
-import { AbstractApiModule } from "../../helpers";
+import { AbstractApiModule } from "../helpers";
 
 export class AuthApiModule extends AbstractApiModule {
   async registration(data: RegistrationRequest) {

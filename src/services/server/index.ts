@@ -1,17 +1,28 @@
 import { bllService } from "../bll";
-import { CommonServerModule } from "./modules";
-import { AuthServerModule } from "./modules/auth";
+import {
+  AuthServerModule,
+  CategoriesServerModule,
+  ItemServerModule,
+  ListServerModule,
+  TagsServerModule,
+} from "./modules";
 
 export * from "./modules";
 export * from "./types";
 
 class ServerService {
   auth: AuthServerModule;
-  common: CommonServerModule;
+  categories: CategoriesServerModule;
+  tags: TagsServerModule;
+  item: ItemServerModule;
+  list: ListServerModule;
 
   constructor() {
     this.auth = new AuthServerModule(bllService);
-    this.common = new CommonServerModule(bllService);
+    this.categories = new CategoriesServerModule(bllService);
+    this.tags = new TagsServerModule(bllService);
+    this.item = new ItemServerModule(bllService);
+    this.list = new ListServerModule(bllService);
   }
 }
 

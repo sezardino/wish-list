@@ -1,7 +1,8 @@
 import { useCallback, type FC } from "react";
 
 import { useCreateListMutation } from "@/hooks/react-query/mutation/create-list";
-import { useTagsAndCategoriesQuery } from "@/hooks/react-query/query/tags-and-categories";
+import { useCategoriesListQuery } from "@/hooks/react-query/query/categories-list";
+import { useTagsListQuery } from "@/hooks/react-query/query/tags-list";
 import { ListFormValues } from "../forms/ListForm";
 import { ListModal, ListModalProps } from "../modals/ListModal";
 
@@ -15,13 +16,15 @@ export type ListModalWrapperProps = OmittedModalProps;
 export const ListModalWrapper: FC<ListModalWrapperProps> = (props) => {
   const { onClose, isOpen } = props;
 
-  const {
-    data: tagsAndCategoriesData,
-    isFetching: isTagsAndCategoriesLoading,
-  } = useTagsAndCategoriesQuery({
-    type: "LIST",
+  const { data: tagsData, isFetching: isTagsLoading } = useTagsListQuery({
+    type: "ITEM",
     enabled: isOpen || false,
   });
+  const { data: categoriesData, isFetching: isCategoriesLoading } =
+    useCategoriesListQuery({
+      type: "ITEM",
+      enabled: isOpen || false,
+    });
 
   const { mutateAsync: createList, isPending: isCreateListPending } =
     useCreateListMutation();
@@ -42,15 +45,15 @@ export const ListModalWrapper: FC<ListModalWrapperProps> = (props) => {
     [createList, onClose]
   );
 
-  const isLoading = isTagsAndCategoriesLoading || isCreateListPending;
+  const isLoading = isTagsLoading || isCategoriesLoading || isCreateListPending;
 
   return (
     <ListModal
       {...props}
-      isDataFetching={isTagsAndCategoriesLoading}
+      isDataFetching={isTagsLoading || isCategoriesLoading}
       isLoading={isLoading}
-      categories={tagsAndCategoriesData?.categories || []}
-      tags={tagsAndCategoriesData?.tags || []}
+      categories={categoriesData?.categories || []}
+      tags={tagsData?.tags || []}
       onFormSubmit={createListHandler}
     />
   );
