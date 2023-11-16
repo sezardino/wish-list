@@ -1,5 +1,12 @@
 import { AbstractService } from "@/services/server/helpers";
+import { Prisma } from "@prisma/client";
 import { CreateListRequest } from "./schema";
+
+type ManyListsProps = {
+  where: Prisma.ListWhereInput;
+  select?: Prisma.ListSelect;
+  include?: Prisma.ListInclude;
+};
 
 export class ListsService extends AbstractService {
   create(dto: CreateListRequest & { ownerId: string }) {
@@ -24,10 +31,7 @@ export class ListsService extends AbstractService {
     });
   }
 
-  many(ownerId: string) {
-    return this.prismaService.list.findMany({
-      where: { ownerId },
-      include: { items: true },
-    });
+  many(props: ManyListsProps) {
+    return this.prismaService.list.findMany(props);
   }
 }

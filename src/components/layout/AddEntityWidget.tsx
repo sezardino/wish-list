@@ -10,7 +10,7 @@ export type AddEntityWidgetProps = ComponentPropsWithoutRef<"div"> & {
 
 export const AddEntityWidget: FC<AddEntityWidgetProps> = (props) => {
   const { onAddItemClick, onAddListClick, className, ...rest } = props;
-  const t = useTranslations("add-entity-widget");
+  const t = useTranslations("components.add-entity-widget");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const buttonHandler = (type: "list" | "item") => {

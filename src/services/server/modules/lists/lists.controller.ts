@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { AbstractController } from "../../helpers";
 import { ListsService } from "./lists.service";
 import { createListRequestSchema } from "./schema";
+import { dashboardListsRequestSchema } from "./schema/dashboard";
 
 export class ListsController extends AbstractController<ListsService> {
   async create(
@@ -24,6 +25,39 @@ export class ListsController extends AbstractController<ListsService> {
       });
 
       return this.getNextResponse({ create: !!createListResponse }, 200);
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async dashboard(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto, session } = await this.handlerHelper({
+      data: params,
+      schema: dashboardListsRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const serviceResponse = await this.service.many({
+        where: { ownerId: session?.user.id! },
+        select: {
+          name: true,
+          category: true,
+          description: true,
+          icon: true,
+          tags: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: {
+            select: { items: true },
+          },
+        },
+      });
+
+      return this.getNextResponse({ lists: serviceResponse }, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

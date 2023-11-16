@@ -177,6 +177,10 @@
       "no-description": "No description",
       "count": "{value} item(s)",
       "more": "More"
+    },
+    "add-entity-widget": {
+      "add-list": "Add new list",
+      "add-item": "Add new item"
     }
   }
 }
