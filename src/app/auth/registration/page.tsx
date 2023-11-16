@@ -5,10 +5,8 @@ import { AuthTemplate } from "@/components/templates/AuthTemplate";
 import { ProjectPageUrls } from "@/const/url";
 import { reactToastify } from "@/libs/react-toastify";
 import { apiService } from "@/services/api";
-import {
-  RegistrationRequest,
-  IsLoginAvailableRequest,
-} from "@/services/server/modules/auth/schema";
+import { RegistrationRequest } from "@/services/server/modules/auth/schema";
+import { IsLoginAvailableRequest } from "@/services/server/modules/users/schema";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";

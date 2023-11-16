@@ -1,4 +1,5 @@
 import { serverService } from "@/services/server";
 import { NextRequest } from "next/server";
 
-export const POST = (req: NextRequest) => serverService.items.create(req);
+export const POST = (req: NextRequest) =>
+  serverService.items.controller.create(req);

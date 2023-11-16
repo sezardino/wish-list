@@ -1,29 +1,29 @@
-import { bllService } from "../bll";
+import { PrismaService, prisma } from "@/libs/prisma";
 import {
-  AuthServerModule,
-  CategoriesServerModule,
-  ItemsServerModule,
-  ListsServerModule,
-  TagsServerModule,
+  AuthModule,
+  CategoriesModule,
+  ItemsModule,
+  ListsModule,
+  TagsModule,
 } from "./modules";
+import { UsersModule } from "./modules/users";
 
-export * from "./modules";
-export * from "./types";
+class Server {
+  auth: AuthModule;
+  tags: TagsModule;
+  categories: CategoriesModule;
+  lists: ListsModule;
+  items: ItemsModule;
+  users: UsersModule;
 
-class ServerService {
-  auth: AuthServerModule;
-  categories: CategoriesServerModule;
-  tags: TagsServerModule;
-  items: ItemsServerModule;
-  lists: ListsServerModule;
-
-  constructor() {
-    this.auth = new AuthServerModule(bllService);
-    this.categories = new CategoriesServerModule(bllService);
-    this.tags = new TagsServerModule(bllService);
-    this.items = new ItemsServerModule(bllService);
-    this.lists = new ListsServerModule(bllService);
+  constructor(private readonly prismaService: PrismaService) {
+    this.tags = new TagsModule(prismaService);
+    this.categories = new CategoriesModule(prismaService);
+    this.lists = new ListsModule(prismaService);
+    this.items = new ItemsModule(prismaService);
+    this.users = new UsersModule(prismaService);
+    this.auth = new AuthModule(prismaService, this.users.service);
   }
 }
 
-export const serverService = new ServerService();
+export const serverService = new Server(prisma);

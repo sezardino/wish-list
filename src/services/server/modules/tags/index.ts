@@ -1,35 +1,14 @@
-import { BllService } from "@/services/bll";
-import { NextRequest, NextResponse } from "next/server";
-import { BackendErrorResponse } from "../..";
-import { AbstractServerModule } from "../../helpers";
-import { TagsListResponse, tagsListRequestSchema } from "./schema";
+import { PrismaService } from "@/libs/prisma";
+import { AbstractModule } from "../../helpers";
+import { TagsController } from "./tags.controller";
+import { TagsService } from "./tags.service";
 
-export class TagsServerModule extends AbstractServerModule {
-  constructor(private readonly bllService: BllService) {
-    super();
-  }
+export class TagsModule implements AbstractModule<TagsController, TagsService> {
+  controller: TagsController;
+  service: TagsService;
 
-  async list(
-    req: NextRequest
-  ): Promise<BackendErrorResponse | NextResponse<TagsListResponse>> {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
-
-    const { response, dto, session } = await this.handlerHelper({
-      data: params,
-      schema: tagsListRequestSchema,
-    });
-
-    if (response) return response;
-
-    try {
-      const tagsResponse = await this.bllService.tags.list({
-        type: dto!.type!,
-        ownerId: session?.user.id!,
-      });
-
-      return this.getNextResponse({ tags: tagsResponse }, 200);
-    } catch (error) {
-      return this.getNextResponse({ message: "backend-errors.server" }, 500);
-    }
+  constructor(private readonly prismaService: PrismaService) {
+    this.service = new TagsService(prismaService);
+    this.controller = new TagsController(this.service);
   }
 }

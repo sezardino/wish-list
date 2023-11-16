@@ -1,35 +1,16 @@
-import { BllService } from "@/services/bll";
-import { NextRequest, NextResponse } from "next/server";
-import { BackendErrorResponse } from "../..";
-import { AbstractServerModule } from "../../helpers";
-import { createItemRequestSchema } from "./schema";
+import { PrismaService } from "@/libs/prisma";
+import { AbstractModule } from "../../helpers";
+import { ItemsController } from "./items.controller";
+import { ItemsService } from "./items.service";
 
-export class ItemsServerModule extends AbstractServerModule {
-  constructor(private readonly bllService: BllService) {
-    super();
-  }
+export class ItemsModule
+  implements AbstractModule<ItemsController, ItemsService>
+{
+  controller: ItemsController;
+  service: ItemsService;
 
-  async create(
-    req: NextRequest
-  ): Promise<BackendErrorResponse | NextResponse<{ create: boolean }>> {
-    const body = await req.json();
-
-    const { response, dto, session } = await this.handlerHelper({
-      data: body,
-      schema: createItemRequestSchema,
-    });
-
-    if (response) return response;
-
-    try {
-      const createListResponse = await this.bllService.items.create({
-        ownerId: session?.user.id!,
-        ...dto!,
-      });
-
-      return this.getNextResponse({ create: !!createListResponse }, 200);
-    } catch (error) {
-      return this.getNextResponse({ message: "backend-errors.server" }, 500);
-    }
+  constructor(private readonly prismaService: PrismaService) {
+    this.service = new ItemsService(prismaService);
+    this.controller = new ItemsController(this.service);
   }
 }

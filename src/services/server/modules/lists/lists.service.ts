@@ -1,7 +1,7 @@
-import { CreateListRequest } from "@/services/server/modules/lists/schema";
-import { AbstractBllModule } from "../helpers";
+import { AbstractService } from "@/services/server/helpers";
+import { CreateListRequest } from "./schema";
 
-export class ListsBllModule extends AbstractBllModule {
+export class ListsService extends AbstractService {
   create(dto: CreateListRequest & { ownerId: string }) {
     const { name, ownerId, category, description, icon, tags } = dto;
 

@@ -1,35 +1,16 @@
-import { BllService } from "@/services/bll";
-import { NextRequest, NextResponse } from "next/server";
-import { BackendErrorResponse } from "../..";
-import { AbstractServerModule } from "../../helpers";
-import { CategoriesListResponse, categoriesListRequestSchema } from "./schema";
+import { PrismaService } from "@/libs/prisma";
+import { AbstractModule } from "../../helpers";
+import { CategoriesController } from "./categories.controller";
+import { CategoriesService } from "./categories.service";
 
-export class CategoriesServerModule extends AbstractServerModule {
-  constructor(private readonly bllService: BllService) {
-    super();
-  }
+export class CategoriesModule
+  implements AbstractModule<CategoriesController, CategoriesService>
+{
+  controller: CategoriesController;
+  service: CategoriesService;
 
-  async list(
-    req: NextRequest
-  ): Promise<BackendErrorResponse | NextResponse<CategoriesListResponse>> {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
-
-    const { response, dto, session } = await this.handlerHelper({
-      data: params,
-      schema: categoriesListRequestSchema,
-    });
-
-    if (response) return response;
-
-    try {
-      const categoriesResponse = await this.bllService.categories.list({
-        type: dto!.type!,
-        ownerId: session?.user.id!,
-      });
-
-      return this.getNextResponse({ categories: categoriesResponse }, 200);
-    } catch (error) {
-      return this.getNextResponse({ message: "backend-errors.server" }, 500);
-    }
+  constructor(private readonly prismaService: PrismaService) {
+    this.service = new CategoriesService(prismaService);
+    this.controller = new CategoriesController(this.service);
   }
 }

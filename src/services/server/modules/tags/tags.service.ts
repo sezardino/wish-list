@@ -1,10 +1,11 @@
-import { TagsListRequest } from "@/services/server/modules/tags/schema";
-import { AbstractBllModule } from "../helpers";
+import { AbstractService } from "@/services/server/helpers";
+import { TagsListRequest } from "./schema";
 
-const tagsArrayToStringArray = (tags: { tags: string[] }[]) =>
-  Array.from(new Set(tags.map((item) => item.tags).flat()));
+export class TagsService extends AbstractService {
+  protected tagsArrayToStringArray(tags: { tags: string[] }[]) {
+    return Array.from(new Set(tags.map((item) => item.tags).flat()));
+  }
 
-export class TagsBllModule extends AbstractBllModule {
   async list(dto: TagsListRequest & { ownerId: string }) {
     const { type, ownerId } = dto;
 
@@ -12,7 +13,7 @@ export class TagsBllModule extends AbstractBllModule {
 
     const itemTags =
       typeof type === "undefined" || type === "ITEM"
-        ? tagsArrayToStringArray(
+        ? this.tagsArrayToStringArray(
             await this.prismaService.item.findMany({
               select: { tags: true },
               where: { ownerId },
@@ -21,7 +22,7 @@ export class TagsBllModule extends AbstractBllModule {
         : [];
     const listTags =
       typeof type === "undefined" || type === "LIST"
-        ? tagsArrayToStringArray(
+        ? this.tagsArrayToStringArray(
             await this.prismaService.list.findMany({
               select: { tags: true },
               where: { ownerId },

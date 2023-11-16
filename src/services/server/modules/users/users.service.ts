@@ -1,7 +1,7 @@
+import { AbstractService } from "@/services/server/helpers";
 import { User } from "@prisma/client";
-import { AbstractBllModule } from "../helpers";
 
-export class UsersBllModule extends AbstractBllModule {
+export class UsersService extends AbstractService {
   async isLoginAvailable(login: string): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({
       where: { login },

@@ -1,23 +1,24 @@
-import { CategoriesListRequest } from "@/services/server/modules/categories/schema";
-import { AbstractBllModule } from "../helpers";
+import { AbstractService } from "@/services/server/helpers";
+import { CategoriesListRequest } from "./schema";
 
-const categoriesArrayToStringArray = (
-  categories: { category: string | null }[]
-) =>
-  Array.from(
-    new Set(
-      categories.map((item) => (item.category === null ? "" : item.category))
-    )
-  );
+export class CategoriesService extends AbstractService {
+  private categoriesArrayToStringArray(
+    categories: { category: string | null }[]
+  ) {
+    return Array.from(
+      new Set(
+        categories.map((item) => (item.category === null ? "" : item.category))
+      )
+    );
+  }
 
-export class CategoriesBllModule extends AbstractBllModule {
   async list(dto: CategoriesListRequest & { ownerId: string }) {
     const { type, ownerId } = dto;
 
     let allCategories: string[] = [];
     const itemCategories =
       typeof type === "undefined" || type === "ITEM"
-        ? categoriesArrayToStringArray(
+        ? this.categoriesArrayToStringArray(
             await this.prismaService.item.findMany({
               select: { category: true },
               where: { ownerId },
@@ -26,7 +27,7 @@ export class CategoriesBllModule extends AbstractBllModule {
         : [];
     const listCategories =
       typeof type === "undefined" || type === "LIST"
-        ? categoriesArrayToStringArray(
+        ? this.categoriesArrayToStringArray(
             await this.prismaService.list.findMany({
               select: { category: true },
               where: { ownerId },

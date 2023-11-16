@@ -1,6 +1,6 @@
+import { BackendErrorResponse } from "@/types";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Schema, z } from "zod";
-import { BackendErrorResponse } from "../server";
 
 type FetchProps<T extends z.Schema> = {
   endpoint: string;

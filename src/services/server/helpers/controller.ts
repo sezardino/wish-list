@@ -8,7 +8,9 @@ type HelperProps<Schema extends ZodSchema> = {
   skipAuth?: boolean;
 };
 
-export abstract class AbstractServerModule {
+export abstract class AbstractController<S> {
+  constructor(protected readonly service: S) {}
+
   protected formatParams(params: IterableIterator<[string, string]>) {
     let formattedParams: Record<string, any> = {};
 

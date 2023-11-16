@@ -1,9 +1,11 @@
 import {
-  IsLoginAvailableRequest,
   RegistrationRequest,
-  isLoginAvailableResponseSchema,
   registrationResponseSchema,
 } from "@/services/server/modules/auth/schema";
+import {
+  IsLoginAvailableRequest,
+  isLoginAvailableResponseSchema,
+} from "@/services/server/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class AuthApiModule extends AbstractApiModule {

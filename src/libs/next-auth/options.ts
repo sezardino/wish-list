@@ -1,5 +1,5 @@
 import { ProjectPageUrls } from "@/const/url";
-import { bllService } from "@/services/bll";
+import { serverService } from "@/services/server";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -19,7 +19,10 @@ export const nextAuthOptions: AuthOptions = {
         const { login, password } = credentials;
 
         try {
-          const user = await bllService.auth.login({ login, password });
+          const user = await serverService.auth.controller.login({
+            login,
+            password,
+          });
 
           return user;
         } catch (error) {
