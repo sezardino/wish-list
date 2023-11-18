@@ -8,7 +8,7 @@ type FetchProps<T extends z.Schema> = {
   schema: T;
 };
 
-export abstract class AbstractApiModule {
+export abstract class AbstractApi {
   protected restUrl: string;
 
   constructor() {

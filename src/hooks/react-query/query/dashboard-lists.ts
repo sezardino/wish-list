@@ -1,4 +1,4 @@
-import { apiService } from "@/services/api";
+import { serverService } from "@/services/server";
 import { DashboardListsRequest } from "@/services/server/modules/lists/schema/dashboard";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,7 +10,7 @@ export const useDashboardListsQuery = (
 ) =>
   useQuery({
     queryKey: [DASHBOARD_LISTS_QUERY_KEY, ...Object.values(params)],
-    queryFn: () => apiService.lists.dashboard(params),
+    queryFn: () => serverService.lists.api.dashboard(params),
     refetchOnWindowFocus: false,
     enabled,
   });

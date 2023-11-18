@@ -1,4 +1,4 @@
-import { apiService } from "@/services/api";
+import { serverService } from "@/services/server";
 import { SimpleListsRequest } from "@/services/server/modules/lists/schema";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,6 +10,6 @@ export const useSimpleListsQuery = (
 ) =>
   useQuery({
     queryKey: [SIMPLE_LISTS_QUERY_KEY],
-    queryFn: () => apiService.lists.simpleLists(params),
+    queryFn: () => serverService.lists.api.simpleLists(params),
     enabled,
   });

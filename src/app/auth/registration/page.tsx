@@ -4,7 +4,7 @@ import { AuthFormValues } from "@/components/forms/AuthForm";
 import { AuthTemplate } from "@/components/templates/AuthTemplate";
 import { ProjectPageUrls } from "@/const/url";
 import { reactToastify } from "@/libs/react-toastify";
-import { apiService } from "@/services/api";
+import { serverService } from "@/services/server";
 import { RegistrationRequest } from "@/services/server/modules/auth/schema";
 import { IsLoginAvailableRequest } from "@/services/server/modules/users/schema";
 import { useMutation } from "@tanstack/react-query";
@@ -16,7 +16,8 @@ const useRegistrationMutation = () => {
   const t = useTranslations("toasts");
 
   return useMutation({
-    mutationFn: (dto: RegistrationRequest) => apiService.auth.registration(dto),
+    mutationFn: (dto: RegistrationRequest) =>
+      serverService.auth.api.registration(dto),
     onSuccess: () =>
       reactToastify({ type: "success", message: t("registration.success") }),
     onError: () =>
@@ -27,7 +28,7 @@ const useRegistrationMutation = () => {
 const useIsLoginAvailableMutation = () => {
   return useMutation({
     mutationFn: (dto: IsLoginAvailableRequest) =>
-      apiService.auth.isLoginAvailable(dto),
+      serverService.users.api.isLoginAvailable(dto),
   });
 };
 

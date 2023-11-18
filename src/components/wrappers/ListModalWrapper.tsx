@@ -17,12 +17,12 @@ export const ListModalWrapper: FC<ListModalWrapperProps> = (props) => {
   const { onClose, isOpen } = props;
 
   const { data: tagsData, isFetching: isTagsLoading } = useTagsListQuery({
-    type: "ITEM",
+    type: "LIST",
     enabled: isOpen || false,
   });
   const { data: categoriesData, isFetching: isCategoriesLoading } =
     useCategoriesListQuery({
-      type: "ITEM",
+      type: "LIST",
       enabled: isOpen || false,
     });
 
