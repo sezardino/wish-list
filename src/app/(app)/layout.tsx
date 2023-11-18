@@ -54,10 +54,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
 
         <AppSidebar
           lists={lists}
-          className={twMerge(
-            styles.sidebar,
-            "max-md:fixed max-md:top-0 max-md:left-0"
-          )}
+          className={twMerge(styles.sidebar)}
           brandHref={ProjectPageUrls.home}
         />
         <main className={twMerge(styles.content, "p-4 h-auto")}>

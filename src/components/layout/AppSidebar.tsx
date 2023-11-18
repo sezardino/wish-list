@@ -23,24 +23,22 @@ export const AppSidebar: FC<AppSidebarProps> = (props) => {
   const { brandHref, lists, className, ...rest } = props;
   const t = useTranslations("layout.application.sidebar");
 
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleExpanded = () => setIsExpanded((prev) => !prev);
   const toggleOpen = () => setIsOpen((prev) => !prev);
 
   return (
     <aside
       {...rest}
       className={twMerge(
-        "relative h-screen flex flex-col transition-transform md:translate-x-0 border-r py-5 px-3",
-        isOpen && "translate-x-0",
-        !isOpen && "-translate-x-full",
+        "relative h-screen flex flex-col transition-transform md:translate-x-0 border-r py-5 px-3 bg-gray-50",
+        isOpen && "max-md:translate-x-0",
+        !isOpen && "max-md:-translate-x-full",
         className
       )}
       aria-label={t("title")}
     >
-      <Brand href={brandHref} isTextHidden={!isExpanded} />
+      <Brand href={brandHref} isTextHidden={!isOpen} />
       <div className="mt-5 overflow-y-auto h-full">
         {lists.map((items, index) => (
           <ul
@@ -62,12 +60,7 @@ export const AppSidebar: FC<AppSidebarProps> = (props) => {
                   }}
                 >
                   <Icon name={item.icon} />
-                  <span
-                    className={twMerge(
-                      "ml-3",
-                      !isExpanded && !isOpen && "sr-only"
-                    )}
-                  >
+                  <span className={twMerge("ml-3", !isOpen && "sr-only")}>
                     {item.label}
                   </span>
                 </Link>
@@ -79,17 +72,17 @@ export const AppSidebar: FC<AppSidebarProps> = (props) => {
       <button
         type="button"
         className="absolute bottom-7 right-0 translate-x-1/2 z-10 border rounded-full p-1 bg-gray-50 max-md:hidden"
-        onClick={toggleExpanded}
+        onClick={toggleOpen}
       >
         <Icon
-          name={!isExpanded ? "HiChevronDoubleRight" : "HiChevronDoubleLeft"}
+          name={!isOpen ? "HiChevronDoubleRight" : "HiChevronDoubleLeft"}
           size={14}
         />
       </button>
 
       <button
         type="button"
-        className="absolute bottom-7 left-full translate-x-3 z-10 border rounded-full p-2 md:hidden"
+        className="absolute bottom-7 left-full translate-x-3 z-10 border rounded-full p-2 md:hidden bg-gray-50 shadow-2xl"
         onClick={toggleOpen}
         aria-label={isOpen ? t("close-sidebar") : t("open-sidebar")}
       >

@@ -7,6 +7,10 @@
 
 .sidebar {
   grid-area: sidebar;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
 }
 
 .content {
@@ -23,11 +27,7 @@
       "sidebar content";
   }
 
-  .sidebar,
-  .navbar {
-    z-index: 5;
+  .sidebar {
     position: sticky;
-    top: 0;
-    left: 0;
   }
 }
