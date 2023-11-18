@@ -42,8 +42,10 @@ export class ListsController extends AbstractController<ListsService> {
 
     try {
       const serviceResponse = await this.service.many({
+        dto: dto!,
         where: { ownerId: session?.user.id! },
         select: {
+          id: true,
           name: true,
           category: true,
           description: true,
@@ -57,7 +59,7 @@ export class ListsController extends AbstractController<ListsService> {
         },
       });
 
-      return this.getNextResponse({ lists: serviceResponse }, 200);
+      return this.getNextResponse(serviceResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

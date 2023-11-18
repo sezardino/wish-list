@@ -11,7 +11,7 @@ import { AbstractApiModule } from "../helpers";
 export class ListsApiModule extends AbstractApiModule {
   async create(data: CreateListRequest) {
     return await this.fetch({
-      endpoint: "/lists",
+      endpoint: "lists",
       config: { method: "POST", data },
       schema: createListResponseSchema,
     });
@@ -23,7 +23,7 @@ export class ListsApiModule extends AbstractApiModule {
 
   async dashboard(params: DashboardListsRequest) {
     return await this.fetch({
-      endpoint: "/lists/dashboard",
+      endpoint: "lists/dashboard",
       config: { params },
       schema: dashboardListsResponseSchema,
     });

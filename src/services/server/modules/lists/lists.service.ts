@@ -1,11 +1,12 @@
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
-import { CreateListRequest } from "./schema";
+import { CreateListRequest, DashboardListsRequest } from "./schema";
 
 type ManyListsProps = {
   where: Prisma.ListWhereInput;
   select?: Prisma.ListSelect;
   include?: Prisma.ListInclude;
+  dto: DashboardListsRequest;
 };
 
 export class ListsService extends AbstractService {
@@ -31,7 +32,25 @@ export class ListsService extends AbstractService {
     });
   }
 
-  many(props: ManyListsProps) {
-    return this.prismaService.list.findMany(props);
+  async many(props: ManyListsProps) {
+    const { dto, where, ...rest } = props;
+    const { category, limit = 10, page = 0, search, tags } = dto;
+
+    if (search) where.name = { contains: search, mode: "insensitive" };
+    if (category) where.category = { contains: category, mode: "insensitive" };
+    if (tags) where.tags = { hasEvery: tags };
+
+    const count = await this.prismaService.list.count({ where });
+
+    const { meta, skip, take } = this.getPagination(page, limit, count);
+
+    const lists = await this.prismaService.list.findMany({
+      ...rest,
+      skip,
+      take,
+      where,
+    });
+
+    return { lists, meta };
   }
 }
