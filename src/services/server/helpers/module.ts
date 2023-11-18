@@ -1,5 +1,4 @@
-export type AbstractModule<C, S, A> = {
+export type AbstractModule<C, S> = {
   controller: C;
   service: S;
-  api: A;
 };

@@ -1,4 +1,4 @@
-import { serverService } from "@/services/server";
+import { apiService } from "@/services/api";
 import { CategoriesListRequest } from "@/services/server/modules/categories/schema";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,7 +13,7 @@ export const useCategoriesListQuery = (
 ) =>
   useQuery({
     queryKey: [CATEGORIES_LIST_QUERY_KEY, ...Object.values(params)],
-    queryFn: () => serverService.categories.api.list(params),
+    queryFn: () => apiService.categories.list(params),
     refetchOnWindowFocus: false,
     enabled: enabled,
   });

@@ -1,14 +1,16 @@
-import { AbstractApi } from "../../helpers";
 import {
   CreateListRequest,
-  DashboardListsRequest,
   SimpleListsRequest,
   createListResponseSchema,
-  dashboardListsResponseSchema,
   simpleListResponseSchema,
-} from "./schema";
+} from "@/services/server/modules/lists/schema";
+import {
+  DashboardListsRequest,
+  dashboardListsResponseSchema,
+} from "@/services/server/modules/lists/schema/dashboard";
+import { AbstractApiModule } from "../helpers";
 
-export class ListsApi extends AbstractApi {
+export class ListsApiModule extends AbstractApiModule {
   async create(data: CreateListRequest) {
     return await this.fetch({
       endpoint: "lists",

@@ -1,4 +1,4 @@
-import { serverService } from "@/services/server";
+import { apiService } from "@/services/api";
 import { TagsListRequest } from "@/services/server/modules/tags/schema";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,7 +13,7 @@ export const useTagsListQuery = (
 ) =>
   useQuery({
     queryKey: [TAGS_LIST_QUERY_KEY, ...Object.values(params)],
-    queryFn: () => serverService.tags.api.list(params),
+    queryFn: () => apiService.tags.list(params),
     refetchOnWindowFocus: false,
     enabled: enabled,
   });

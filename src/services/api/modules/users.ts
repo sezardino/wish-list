@@ -1,10 +1,10 @@
-import { AbstractApi } from "../../helpers";
 import {
   IsLoginAvailableRequest,
   isLoginAvailableResponseSchema,
-} from "./schema";
+} from "@/services/server/modules/users/schema";
+import { AbstractApiModule } from "../helpers";
 
-export class UsersApi extends AbstractApi {
+export class UsersApiModule extends AbstractApiModule {
   async isLoginAvailable(params: IsLoginAvailableRequest) {
     return await this.fetch({
       endpoint: "users/is-login-available",
