@@ -7,27 +7,22 @@ export class TagsService extends AbstractService {
   }
 
   async list(dto: TagsListRequest & { ownerId: string }) {
-    const { type, ownerId } = dto;
+    const { page, limit, type, ownerId } = dto;
 
-    let allTags: string[] = [];
+    const findManyArgs = {
+      select: { tags: true },
+      where: { ownerId },
+    };
+
+    let allTags = [];
 
     const itemTags =
       typeof type === "undefined" || type === "ITEM"
-        ? this.tagsArrayToStringArray(
-            await this.prismaService.item.findMany({
-              select: { tags: true },
-              where: { ownerId },
-            })
-          )
+        ? await this.prismaService.item.findMany(findManyArgs)
         : [];
     const listTags =
       typeof type === "undefined" || type === "LIST"
-        ? this.tagsArrayToStringArray(
-            await this.prismaService.list.findMany({
-              select: { tags: true },
-              where: { ownerId },
-            })
-          )
+        ? await this.prismaService.list.findMany(findManyArgs)
         : [];
 
     if (type === "ITEM") {
@@ -35,9 +30,17 @@ export class TagsService extends AbstractService {
     } else if (type === "LIST") {
       allTags = listTags;
     } else {
-      allTags = Array.from(new Set([...listTags, ...itemTags]));
+      allTags = [...listTags, ...itemTags];
     }
 
-    return allTags;
+    const tags = Array.from(new Set(this.tagsArrayToStringArray(allTags)));
+
+    const { meta, skip, take } = this.getPagination({
+      page,
+      limit,
+      count: tags.length,
+    });
+
+    return { tags: tags.slice(skip, skip + take), meta };
   }
 }

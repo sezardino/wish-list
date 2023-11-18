@@ -42,7 +42,7 @@ export class ListsService extends AbstractService {
 
     const count = await this.prismaService.list.count({ where });
 
-    const { meta, skip, take } = this.getPagination(page, limit, count);
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
 
     const lists = await this.prismaService.list.findMany({
       ...rest,

@@ -23,7 +23,7 @@ export class CategoriesController extends AbstractController<CategoriesService> 
         ownerId: session?.user.id!,
       });
 
-      return this.getNextResponse({ categories: categoriesResponse }, 200);
+      return this.getNextResponse(categoriesResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

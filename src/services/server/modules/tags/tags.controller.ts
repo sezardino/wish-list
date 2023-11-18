@@ -23,7 +23,7 @@ export class TagsController extends AbstractController<TagsService> {
         ownerId: session?.user.id!,
       });
 
-      return this.getNextResponse({ tags: tagsResponse }, 200);
+      return this.getNextResponse(tagsResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
