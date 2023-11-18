@@ -2,7 +2,7 @@ import { BackendErrorResponse } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 import { AbstractController } from "../../helpers";
 import { ListsService } from "./lists.service";
-import { createListRequestSchema } from "./schema";
+import { createListRequestSchema, simpleListsRequestSchema } from "./schema";
 import { dashboardListsRequestSchema } from "./schema/dashboard";
 
 export class ListsController extends AbstractController<ListsService> {
@@ -24,7 +24,7 @@ export class ListsController extends AbstractController<ListsService> {
         ...dto!,
       });
 
-      return this.getNextResponse({ create: !!createListResponse }, 200);
+      return this.getNextResponse({ create: !!createListResponse }, 201);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
@@ -56,6 +56,32 @@ export class ListsController extends AbstractController<ListsService> {
           _count: {
             select: { items: true },
           },
+        },
+      });
+
+      return this.getNextResponse(serviceResponse, 200);
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async simple(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto, session } = await this.handlerHelper({
+      data: params,
+      schema: simpleListsRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const serviceResponse = await this.service.many({
+        dto: dto!,
+        where: { ownerId: session?.user.id! },
+        select: {
+          id: true,
+          name: true,
         },
       });
 

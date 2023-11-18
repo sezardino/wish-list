@@ -61,7 +61,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
           {children}
         </main>
         <AddEntityWidget
-          className="fixed bottom-7 right-7"
+          className="fixed bottom-7 right-7 z-20"
           onAddItemClick={() => setOpenedModal("create-item")}
           onAddListClick={() => setOpenedModal("create-list")}
         />

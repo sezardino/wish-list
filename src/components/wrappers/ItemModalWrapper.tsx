@@ -35,6 +35,7 @@ export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
     });
 
   const { data: listsData, isFetching: isListsLoading } = useSimpleListsQuery(
+    {},
     isOpen || false
   );
 
@@ -67,7 +68,7 @@ export const ItemModalWrapper: FC<ItemModalWrapperProps> = (props) => {
       isItemCreating={isCreateItemPending}
       categories={categoriesData?.categories || []}
       tags={tagsData?.tags || []}
-      lists={[]}
+      lists={listsData?.lists || []}
       onFormSubmit={createItemHandler}
     />
   );

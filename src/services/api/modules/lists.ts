@@ -1,6 +1,8 @@
 import {
   CreateListRequest,
+  SimpleListsRequest,
   createListResponseSchema,
+  simpleListResponseSchema,
 } from "@/services/server/modules/lists/schema";
 import {
   DashboardListsRequest,
@@ -17,8 +19,12 @@ export class ListsApiModule extends AbstractApiModule {
     });
   }
 
-  async simpleLists() {
-    return;
+  async simpleLists(params: SimpleListsRequest) {
+    return await this.fetch({
+      endpoint: "lists/simple",
+      config: { params },
+      schema: simpleListResponseSchema,
+    });
   }
 
   async dashboard(params: DashboardListsRequest) {
