@@ -5,8 +5,8 @@ import {
   ItemsModule,
   ListsModule,
   TagsModule,
+  UsersModule,
 } from "./modules";
-import { UsersModule } from "./modules/users";
 
 class Server {
   auth: AuthModule;

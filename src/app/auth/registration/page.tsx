@@ -3,34 +3,10 @@
 import { AuthFormValues } from "@/components/forms/AuthForm";
 import { AuthTemplate } from "@/components/templates/AuthTemplate";
 import { ProjectPageUrls } from "@/const/url";
-import { reactToastify } from "@/libs/react-toastify";
-import { serverService } from "@/services/server";
-import { RegistrationRequest } from "@/services/server/modules/auth/schema";
-import { IsLoginAvailableRequest } from "@/services/server/modules/users/schema";
-import { useMutation } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useIsLoginAvailableMutation } from "@/hooks/react-query/mutation/is-login-available";
+import { useRegistrationMutation } from "@/hooks/react-query/mutation/registration";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-
-const useRegistrationMutation = () => {
-  const t = useTranslations("toasts");
-
-  return useMutation({
-    mutationFn: (dto: RegistrationRequest) =>
-      serverService.auth.api.registration(dto),
-    onSuccess: () =>
-      reactToastify({ type: "success", message: t("registration.success") }),
-    onError: () =>
-      reactToastify({ type: "error", message: t("registration.error") }),
-  });
-};
-
-const useIsLoginAvailableMutation = () => {
-  return useMutation({
-    mutationFn: (dto: IsLoginAvailableRequest) =>
-      serverService.users.api.isLoginAvailable(dto),
-  });
-};
 
 const RegistrationPage = () => {
   const router = useRouter();
